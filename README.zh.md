@@ -31,6 +31,32 @@ yarn add beegridtable
 
 #### 如何使用
 
+-   首先, 引入 BeeGridTable
+    一般在 webpack 入口页面 main.js 中如下配置:
+
+```
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+
+import BeeGridTable from "beegridtable";
+import BeeLocale from "beegridtable/src/locale";
+
+Vue.use(BeeGridTable, {
+  BeeLocale,
+  capture: true,
+});
+
+Vue.config.productionTip = false;
+
+new Vue({
+  router,
+  store,
+  render: (h) => h(App),
+}).$mount("#app");
+```
+
 -   最简单的例子
 
 ![basic.png](./demos/basic.png)

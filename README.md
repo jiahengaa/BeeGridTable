@@ -31,6 +31,32 @@ yarn add beegridtable
 
 #### How to use
 
+-   First of all, Import BeeGridTable
+    import BeeGridTable in the entry file (main.js as usual) of webpack:
+
+```
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+
+import BeeGridTable from "beegridtable";
+import BeeLocale from "beegridtable/src/locale";
+
+Vue.use(BeeGridTable, {
+  BeeLocale,
+  capture: true,
+});
+
+Vue.config.productionTip = false;
+
+new Vue({
+  router,
+  store,
+  render: (h) => h(App),
+}).$mount("#app");
+```
+
 -   Basic Simple
 
 ![basic.png](./demos/basic.png)
