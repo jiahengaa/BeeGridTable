@@ -1,4 +1,4 @@
-# BeeGridTable
+# BeeGridTable [(中文)](./README.md)
 
 #### Description
 
