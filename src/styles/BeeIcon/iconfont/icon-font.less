@@ -1,0 +1,36 @@
+// beeicons Font Path
+// --------------------------
+
+@font-face {
+    font-family: @beeicons-font-family;
+    src: url("@{beeicons-font-path}/iconfont.woff2?v=@{beeicons-version}")
+            format("woff2"),
+        url("@{beeicons-font-path}/iconfont.woff?v=@{beeicons-version}")
+            format("woff"),
+        url("@{beeicons-font-path}/iconfont.ttf?v=@{beeicons-version}")
+            format("truetype"),
+        url("@{beeicons-font-path}/iconfont.svg?v=@{beeicons-version}#iconfont")
+            format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.bee-icon() {
+    display: inline-block;
+    font-family: @beeicons-font-family;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: -0.125em;
+    text-align: center;
+}
+
+.bee-icon {
+    .bee-icon();
+}

@@ -1,14 +1,14 @@
 # BeeGridTable
 
-#### 描述
+#### Description
 
-BeeGridTable ，是一款基于 Vue2.js 的可高定制化的表格控件. 更丰富的功能、更加高效、易于使用!
+BeeGridTable , is a Highly Customizable Table UI component library based on Vue.js. Rich functions、More efficient、Easy to use!
 
-#### [主页](http://www.beegridtable.com/index)
+#### [Home](http://www.beegridtable.com/index)
 
 http://www.beegridtable.com/index
 
-#### 安装
+#### Installation
 
 -   1.  npm
 
@@ -22,16 +22,16 @@ npm i beegridtable -S
 yarn add beegridtable
 ```
 
-#### 功能
+#### Features
 
 -   Friendly API.
 -   Great documentation.
 -   It is awesome.
 -   Support Vue.js 2.
 
-#### 如何使用
+#### How to use
 
--   最简单的例子
+-   Basic Simple
 
 ![basic.png](./demos/basic.png)
 
@@ -75,7 +75,7 @@ data() {
   },
 ```
 
--   固定表项功能
+-   Fixed
     ![fixed.png](./demos/fixed.png)
 
 ```

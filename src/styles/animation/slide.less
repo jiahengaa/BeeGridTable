@@ -1,0 +1,143 @@
+.slide-motion(@className, @keyframeName) {
+    .make-motion(@className, @keyframeName);
+    .@{className}-enter-active,
+    .@{className}-appear {
+        opacity: 0;
+        animation-timing-function: @ease-in-out;
+    }
+    .@{className}-leave-active {
+        animation-timing-function: @ease-in-out;
+    }
+}
+
+.slide-motion(transition-drop, beeTransitionDrop);
+.slide-motion(slide-up, beeSlideUp);
+.slide-motion(slide-down, beeSlideDown);
+.slide-motion(slide-left, beeSlideLeft);
+.slide-motion(slide-right, beeSlideRight);
+
+@keyframes beeTransitionDropIn {
+    0% {
+        opacity: 0;
+        transform: scaleY(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+@keyframes beeTransitionDropOut {
+    0% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleY(0.8);
+    }
+}
+
+@keyframes beeSlideUpIn {
+    0% {
+        opacity: 0;
+        transform-origin: 0% 0%;
+        transform: scaleY(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform-origin: 0% 0%;
+        transform: scaleY(1);
+    }
+}
+
+@keyframes beeSlideUpOut {
+    0% {
+        opacity: 1;
+        transform-origin: 0% 0%;
+        transform: scaleY(1);
+    }
+    100% {
+        opacity: 0;
+        transform-origin: 0% 0%;
+        transform: scaleY(0.8);
+    }
+}
+
+@keyframes beeSlideDownIn {
+    0% {
+        opacity: 0;
+        transform-origin: 100% 100%;
+        transform: scaleY(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform-origin: 100% 100%;
+        transform: scaleY(1);
+    }
+}
+
+@keyframes beeSlideDownOut {
+    0% {
+        opacity: 1;
+        transform-origin: 100% 100%;
+        transform: scaleY(1);
+    }
+    100% {
+        opacity: 0;
+        transform-origin: 100% 100%;
+        transform: scaleY(0.8);
+    }
+}
+
+@keyframes beeSlideLeftIn {
+    0% {
+        opacity: 0;
+        transform-origin: 0% 0%;
+        transform: scaleX(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform-origin: 0% 0%;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes beeSlideLeftOut {
+    0% {
+        opacity: 1;
+        transform-origin: 0% 0%;
+        transform: scaleX(1);
+    }
+    100% {
+        opacity: 0;
+        transform-origin: 0% 0%;
+        transform: scaleX(0.8);
+    }
+}
+
+@keyframes beeSlideRightIn {
+    0% {
+        opacity: 0;
+        transform-origin: 100% 0%;
+        transform: scaleX(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform-origin: 100% 0%;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes beeSlideRightOut {
+    0% {
+        opacity: 1;
+        transform-origin: 100% 0%;
+        transform: scaleX(1);
+    }
+    100% {
+        opacity: 0;
+        transform-origin: 100% 0%;
+        transform: scaleX(0.8);
+    }
+}

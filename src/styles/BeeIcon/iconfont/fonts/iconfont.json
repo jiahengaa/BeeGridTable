@@ -1,0 +1,93 @@
+{
+    "id": "2021376",
+    "name": "BeeGridTable",
+    "font_family": "iconfont",
+    "css_prefix_text": "icon-",
+    "description": "",
+    "glyphs": [
+        {
+            "icon_id": "6531979",
+            "name": "search",
+            "font_class": "search",
+            "unicode": "e600",
+            "unicode_decimal": 58880
+        },
+        {
+            "icon_id": "16720843",
+            "name": "contain",
+            "font_class": "contain",
+            "unicode": "e60d",
+            "unicode_decimal": 58893
+        },
+        {
+            "icon_id": "16721929",
+            "name": "endWith",
+            "font_class": "endWith",
+            "unicode": "e612",
+            "unicode_decimal": 58898
+        },
+        {
+            "icon_id": "16721930",
+            "name": "notContain",
+            "font_class": "notContain",
+            "unicode": "e613",
+            "unicode_decimal": 58899
+        },
+        {
+            "icon_id": "16721932",
+            "name": "startWith",
+            "font_class": "startWith",
+            "unicode": "e615",
+            "unicode_decimal": 58901
+        },
+        {
+            "icon_id": "16722027",
+            "name": "equil",
+            "font_class": "equil",
+            "unicode": "e616",
+            "unicode_decimal": 58902
+        },
+        {
+            "icon_id": "16722137",
+            "name": "notequil",
+            "font_class": "notequil",
+            "unicode": "e617",
+            "unicode_decimal": 58903
+        },
+        {
+            "icon_id": "16723863",
+            "name": "greater",
+            "font_class": "greater",
+            "unicode": "e619",
+            "unicode_decimal": 58905
+        },
+        {
+            "icon_id": "16723864",
+            "name": "less",
+            "font_class": "less",
+            "unicode": "e61a",
+            "unicode_decimal": 58906
+        },
+        {
+            "icon_id": "16723865",
+            "name": "greaterEquil",
+            "font_class": "greaterEquil",
+            "unicode": "e61b",
+            "unicode_decimal": 58907
+        },
+        {
+            "icon_id": "16723866",
+            "name": "lessEquil",
+            "font_class": "lessEquil",
+            "unicode": "e61c",
+            "unicode_decimal": 58908
+        },
+        {
+            "icon_id": "16723867",
+            "name": "bettween",
+            "font_class": "bettween",
+            "unicode": "e61d",
+            "unicode_decimal": 58909
+        }
+    ]
+}

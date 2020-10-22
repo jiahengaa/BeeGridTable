@@ -1,0 +1,162 @@
+.move-motion(@className, @keyframeName) {
+    .make-motion(@className, @keyframeName);
+    .@{className}-enter-active,
+    .@{className}-appear {
+        opacity: 0;
+        animation-timing-function: @ease-in-out;
+    }
+    .@{className}-leave-active {
+        animation-timing-function: @ease-in-out;
+    }
+}
+
+.move-motion(move-up, beeMoveUp);
+.move-motion(move-down, beeMoveDown);
+.move-motion(move-left, beeMoveLeft);
+.move-motion(move-right, beeMoveRight);
+
+@keyframes beeMoveDownIn {
+    0% {
+        transform-origin: 0 0;
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes beeMoveDownOut {
+    0% {
+        transform-origin: 0 0;
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes beeMoveLeftIn {
+    0% {
+        transform-origin: 0 0;
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes beeMoveLeftOut {
+    0% {
+        transform-origin: 0 0;
+        transform: translateX(0%);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes beeMoveRightIn {
+    0% {
+        opacity: 0;
+        transform-origin: 0 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform-origin: 0 0;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes beeMoveRightOut {
+    0% {
+        transform-origin: 0 0;
+        transform: translateX(0%);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes beeMoveUpIn {
+    0% {
+        transform-origin: 0 0;
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes beeMoveUpOut {
+    0% {
+        transform-origin: 0 0;
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+// specific transition for Notice
+
+.move-motion(move-notice, beeMoveNotice);
+@import "../components/notice.less";
+
+@keyframes beeMoveNoticeIn {
+    0% {
+        opacity: 0;
+        transform-origin: 0 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform-origin: 0 0;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes beeMoveNoticeOut {
+    0% {
+        transform-origin: 0 0;
+        transform: translateX(0%);
+        opacity: 1;
+    }
+    70% {
+        transform-origin: 0 0;
+        transform: translateX(100%);
+        height: auto;
+        padding: @notice-padding;
+        margin-bottom: @notice-margin-bottom;
+        opacity: 0;
+    }
+    100% {
+        transform-origin: 0 0;
+        transform: translateX(100%);
+        height: 0;
+        padding: 0;
+        margin-bottom: 0;
+        opacity: 0;
+    }
+}

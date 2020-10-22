@@ -1,0 +1,37 @@
+.ease-motion(@className, @keyframeName) {
+    .make-motion(@className, @keyframeName);
+    .@{className}-enter-active,
+    .@{className}-appear {
+        opacity: 0;
+        animation-timing-function: linear;
+        animation-duration: @transition-time;
+    }
+    .@{className}-leave-active {
+        animation-timing-function: linear;
+        animation-duration: @transition-time;
+    }
+}
+
+.ease-motion(ease, beeEase);
+
+@keyframes beeEaseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes beeEaseOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
