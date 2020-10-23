@@ -34,6 +34,7 @@ const components = {
     Select,
     BeeColumn: BeeGridTable.BeeColumn,
     BeeColumnFilter: BeeGridTable.BeeColumnFilter,
+    BeeColumnHeader: BeeGridTable.BeeColumnHeader,
     BeeGridTable,
     TimePicker,
     Tooltip,
