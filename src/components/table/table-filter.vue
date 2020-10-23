@@ -1,37 +1,18 @@
 
 <template>
   <div>
-    <slot :name="field"></slot>
+    <slot :name="filterSlot"></slot>
   </div>
 </template>
 <script>
 export default {
-  name: "TableColumn",
+  name: "TableColumnFilter",
   inject: ["tableRoot"],
   props: {
     field: {
       type: String,
       required: true,
     },
-    index: Number,
-    title: String,
-    width: Number,
-    resizable: Boolean,
-    sortable: Boolean,
-    align: String,
-    type: String,
-    width: Number,
-    minWidth: Number,
-    maxWidth: Number,
-    className: String,
-    fixed: String,
-    ellipsis: Boolean,
-    tooltip: Boolean,
-    sortable: Object,
-    sortMethod: Function,
-    indexMethod: Function,
-    sortType: String,
-    filters: Object,
     filterMethod: Function,
     filterValue: Object | Number | String | Array,
   },
@@ -47,11 +28,14 @@ export default {
         this.tableRoot.columns.push(
           Object.assign(
             {},
-            { key: this.field, slot: this.field },
+            { key: this.field, headFilterSlot: "bee-filter-" + this.field },
             this.$props,
             this.$attrs
           )
         );
+        this.tableRoot.$columnSlots[
+          "bee-filter-" + this.field
+        ] = this.$scopedSlots.default;
       } else {
         this.tableRoot.columns.push(
           Object.assign({}, { key: this.field }, this.$props, this.$attrs)
@@ -59,16 +43,22 @@ export default {
       }
     } else {
       let column = this.tableRoot.columns.find((p) => p.key === this.field);
-      const filterMethod = column.filterMethod;
-      const filterValue = column.filterValue;
-      column = Object.assign({}, { key: this.field }, this.$props, this.$attrs);
-      column.filterMethod = filterMethod;
-      column.filterValue = filterValue;
-    }
+      Object.assign(column, this.$props, this.$attrs);
+      column.filterMethod = this.filterMethod;
+      column.filterValue = this.filterValue;
 
-    if (this.$scopedSlots.default !== undefined) {
-      this.tableRoot.$columnSlots[this.field] = this.$scopedSlots.default;
+      if (this.$scopedSlots.default !== undefined) {
+        column.headFilterSlot = "bee-filter-" + this.field;
+        this.tableRoot.$columnSlots[
+          "bee-filter-" + this.field
+        ] = this.$scopedSlots.default;
+      }
     }
+  },
+  computed: {
+    filterSlot() {
+      return "bee-filter-" + this.field;
+    },
   },
 };
 </script>

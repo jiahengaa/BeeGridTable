@@ -560,6 +560,7 @@ const getFilterMethod = (dataType, filterOp) => {
                 : dataType === undefined
                     ? String
                     : Date;
+
     switch (dtype) {
         case Number:
             return getNumberFilter(filterOp);

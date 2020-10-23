@@ -1264,6 +1264,7 @@ export default {
               col._filterValue = column.filterValue;
               col.filterValue = column.filterValue;
             } else {
+              console.log(column.key, column._type);
               col._filterMethod = getFilterMethod(
                 column._type,
                 column._filterOp

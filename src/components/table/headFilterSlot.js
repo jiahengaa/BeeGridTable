@@ -11,20 +11,49 @@ export default {
         doSortAndFilter: Function
     },
     render: (h, ctx) => {
-        return h(
-            "div",
+        if (
+            ctx.injections.tableRoot.$columnSlots !== undefined &&
+            ctx.injections.tableRoot.$columnSlots[
+                "bee-filter-" + ctx.props.column.key
+            ] !== undefined
+        ) {
+            return h(
+                "div",
+                ctx.injections.tableRoot.$columnSlots[
+                    "bee-filter-" + ctx.props.column.key
+                ]({
+                    column: ctx.props.column,
+                    index: ctx.props.index,
+                    doSortAndFilter: () => {
+                        ctx.injections.tableRoot.doSortAndFilter(
+                            null,
+                            ctx.props.column
+                        );
+                    }
+                })
+            );
+        } else if (
             ctx.injections.tableRoot.$scopedSlots[
                 ctx.props.column.headFilterSlot
-            ]({
-                column: ctx.props.column,
-                index: ctx.props.index,
-                doSortAndFilter: () => {
-                    ctx.injections.tableRoot.doSortAndFilter(
-                        null,
-                        ctx.props.column
-                    );
-                }
-            })
-        );
+            ] !== undefined
+        ) {
+            return h(
+                "div",
+                ctx.injections.tableRoot.$scopedSlots[
+                    ctx.props.column.headFilterSlot
+                ]({
+                    column: ctx.props.column,
+                    index: ctx.props.index,
+                    doSortAndFilter: () => {
+                        ctx.injections.tableRoot.doSortAndFilter(
+                            null,
+                            ctx.props.column
+                        );
+                    }
+                })
+            );
+        } else {
+            return h("div");
+        }
     }
 };
