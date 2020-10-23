@@ -11,13 +11,20 @@ export default {
         }
     },
     render: (h, ctx) => {
-        return h(
-            "div",
-            ctx.injections.tableRoot.$scopedSlots[ctx.props.column.slot]({
-                row: ctx.props.row,
-                column: ctx.props.column,
-                index: ctx.props.index
-            })
-        );
+        if (
+            ctx.injections.tableRoot.$columnSlots[ctx.props.column.slot] !==
+            undefined
+        ) {
+            return h(
+                "div",
+                ctx.injections.tableRoot.$columnSlots[ctx.props.column.slot]({
+                    row: ctx.props.row,
+                    column: ctx.props.column,
+                    index: ctx.props.index
+                })
+            );
+        } else {
+            return h("div");
+        }
     }
 };

@@ -10,12 +10,21 @@ export default {
         }
     },
     render: (h, ctx) => {
-        return h(
-            "div",
-            ctx.injections.tableRoot.$scopedSlots[ctx.props.column.headSlot]({
-                column: ctx.props.column,
-                index: ctx.props.index
-            })
-        );
+        if (
+            ctx.injections.tableRoot.$scopedSlots[ctx.props.column.headSlot] !==
+            undefined
+        ) {
+            return h(
+                "div",
+                ctx.injections.tableRoot.$scopedSlots[
+                    ctx.props.column.headSlot
+                ]({
+                    column: ctx.props.column,
+                    index: ctx.props.index
+                })
+            );
+        } else {
+            return h("div");
+        }
     }
 };

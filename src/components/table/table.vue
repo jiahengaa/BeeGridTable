@@ -224,6 +224,7 @@
     <Spin fix size="large" v-if="loading">
       <slot name="loading"></slot>
     </Spin>
+    <slot></slot>
   </div>
 </template>
 <script>
@@ -1450,6 +1451,12 @@ export default {
     this.observer.removeListener(this.$el, this.handleResize);
   },
   watch: {
+    columns: {
+      handler(nVal, oVal) {
+        this.initColumns();
+      },
+      deep: true,
+    },
     data: {
       handler(nVal, oVal) {
         // here will trigger before clickCurrentRow, so use async

@@ -32,6 +32,7 @@ const components = {
     Option: Option,
     OptionGroup,
     Select,
+    BeeColumn: BeeGridTable.BeeColumn,
     BeeGridTable,
     TimePicker,
     Tooltip,
