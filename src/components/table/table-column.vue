@@ -52,6 +52,7 @@ export default {
             this.$attrs
           )
         );
+        this.tableRoot.$columnSlots[this.field] = this.$scopedSlots.default;
       } else {
         this.tableRoot.columns.push(
           Object.assign({}, { key: this.field }, this.$props, this.$attrs)
@@ -61,13 +62,15 @@ export default {
       let column = this.tableRoot.columns.find((p) => p.key === this.field);
       const filterMethod = column.filterMethod;
       const filterValue = column.filterValue;
-      column = Object.assign({}, { key: this.field }, this.$props, this.$attrs);
+
+      Object.assign(column, { key: this.field }, this.$props, this.$attrs);
       column.filterMethod = filterMethod;
       column.filterValue = filterValue;
-    }
 
-    if (this.$scopedSlots.default !== undefined) {
-      this.tableRoot.$columnSlots[this.field] = this.$scopedSlots.default;
+      if (this.$scopedSlots.default !== undefined) {
+        column.slot = this.field;
+        this.tableRoot.$columnSlots[this.field] = this.$scopedSlots.default;
+      }
     }
   },
 };
