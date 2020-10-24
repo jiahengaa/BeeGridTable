@@ -312,74 +312,6 @@ export default {
           icon: "search",
         },
       ],
-      stringFilter: [
-        {
-          filterOperation: "Contains",
-          displayName: "包含",
-          placeholder: "",
-          icon: "contain",
-        },
-        {
-          filterOperation: "NotContains",
-          displayName: "不包含",
-          placeholder: "",
-          icon: "notContain",
-        },
-        {
-          filterOperation: "StartsWith",
-          displayName: "以...开始",
-          placeholder: "",
-          icon: "startWith",
-        },
-        {
-          filterOperation: "EndsWith",
-          displayName: "结束于",
-          placeholder: "",
-          icon: "endWith",
-        },
-        // {
-        //   filterOperation: "Equals",
-        //   displayName: "等于",
-        //   placeholder: "",
-        //   icon: "equil",
-        // },
-        // {
-        //   filterOperation: "NotEquals",
-        //   displayName: "不等于",
-        //   placeholder: "",
-        //   icon: "notequil",
-        // },
-        // {
-        //   filterOperation: "IsBlank",
-        //   displayName: "空",
-        //   placeholder: "",
-        //   icon: "search",
-        // },
-        // {
-        //   filterOperation: "IsNotBlank",
-        //   displayName: "不为空",
-        //   placeholder: "",
-        //   icon: "search",
-        // },
-        // {
-        //   filterOperation: "AnyOf",
-        //   displayName: "任何一个",
-        //   placeholder: "",
-        //   icon: "search",
-        // },
-        // {
-        //   filterOperation: "NoneOf",
-        //   displayName: "任何一个都不",
-        //   placeholder: "",
-        //   icon: "search",
-        // },
-        {
-          filterOperation: "Reset",
-          displayName: "重置",
-          placeholder: "",
-          icon: "search",
-        },
-      ],
     };
   },
   computed: {
@@ -417,6 +349,40 @@ export default {
       }
 
       return isSelectAll;
+    },
+    stringFilter() {
+      return [
+        {
+          filterOperation: "Contains",
+          displayName: this.tableRoot.localeFilterContain,
+          placeholder: "",
+          icon: "contain",
+        },
+        {
+          filterOperation: "NotContains",
+          displayName: this.tableRoot.localeFilterNotContain,
+          placeholder: "",
+          icon: "notContain",
+        },
+        {
+          filterOperation: "StartsWith",
+          displayName: this.tableRoot.localeFilterStartWith,
+          placeholder: "",
+          icon: "startWith",
+        },
+        {
+          filterOperation: "EndsWith",
+          displayName: this.tableRoot.localeFilterEndWith,
+          placeholder: "",
+          icon: "endWith",
+        },
+        {
+          filterOperation: "Reset",
+          displayName: this.tableRoot.localeResetFilter,
+          placeholder: "",
+          icon: "search",
+        },
+      ];
     },
     getFilterList() {
       return (fcolumn) => {

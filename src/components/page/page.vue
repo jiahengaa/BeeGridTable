@@ -28,12 +28,12 @@
   <ul :class="wrapClasses" :style="styles" v-else>
     <span :class="[prefixCls + '-total']" v-if="showTotal">
       <slot>
-        {{ t('i.page.total') }} {{ total }}
-        <template v-if="total <= 1">{{ t('i.page.item') }}</template>
-        <template v-else>{{ t('i.page.items') }}</template>
+        {{ t("i.page.total") }} {{ total }}
+        <template v-if="total <= 1">{{ t("i.page.item") }}</template>
+        <template v-else>{{ t("i.page.items") }}</template>
       </slot>
     </span>
-    <span>{{",筛选结果共"+filterTotalData+"条"}}</span>
+    <span>{{ filterResultL + filterTotalData + filterResultR }}</span>
     <li :title="t('i.page.prev')" :class="prevClasses" @click="prev">
       <a>
         <template v-if="prevText !== ''">{{ prevText }}</template>
@@ -80,7 +80,7 @@
     <li
       :title="currentPage"
       v-if="currentPage != 1 && currentPage != allPages"
-      :class="[prefixCls + '-item',prefixCls + '-item-active']"
+      :class="[prefixCls + '-item', prefixCls + '-item-active']"
     >
       <a>{{ currentPage }}</a>
     </li>
@@ -172,6 +172,14 @@ export default {
     filterTotalData: {
       type: Number,
       default: 0,
+    },
+    filterResultL: {
+      type: String,
+      default: "",
+    },
+    filterResultR: {
+      type: String,
+      default: "",
     },
     pageSize: {
       type: Number,

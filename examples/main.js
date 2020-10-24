@@ -9,7 +9,7 @@ import App from "./app.vue";
 // import locale from "../dist/locale/zh-CN";
 
 import beeGridTable from "../src/index";
-import locale from "../dist/locale/zh-CN";
+import locale from "../src/locale/lang/en-US";
 
 Vue.use(VueRouter);
 Vue.use(beeGridTable, {

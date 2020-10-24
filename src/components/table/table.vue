@@ -202,6 +202,8 @@
       <div style="margin-top: 15px">
         <Page
           show-total
+          :filterResultL="localeFilterResultL"
+          :filterResultR="localeFilterResultR"
           ref="page"
           style="margin-left: 20px; margin-bottom: 10px"
           :total="data.length"
@@ -374,6 +376,27 @@ export default {
     sumText: {
       type: String,
     },
+    filterContain: {
+      type: String,
+    },
+    filterNotContain: {
+      type: String,
+    },
+    filterStartWith: {
+      type: String,
+    },
+    filterEndWith: {
+      type: String,
+    },
+    filterResultL: {
+      type: String,
+    },
+    filterResultR: {
+      type: String,
+    },
+    resetFilter: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -431,6 +454,56 @@ export default {
         return this.t("i.table.sumText");
       } else {
         return this.sumText;
+      }
+    },
+    localeFilterContain() {
+      if (this.filterContain === undefined) {
+        return this.t("i.table.filterContain");
+      } else {
+        return this.filterContain;
+      }
+    },
+    localeFilterNotContain() {
+      if (this.filterNotContain === undefined) {
+        return this.t("i.table.filterNotContain");
+      } else {
+        return this.filterNotContain;
+      }
+    },
+    localeFilterStartWith() {
+      if (this.filterStartWith === undefined) {
+        return this.t("i.table.filterStartWith");
+      } else {
+        return this.filterStartWith;
+      }
+    },
+    localeFilterEndWith() {
+      if (this.filterEndWith === undefined) {
+        console.log(this.t("i.table.filterEndWith"));
+        return this.t("i.table.filterEndWith");
+      } else {
+        return this.filterEndWith;
+      }
+    },
+    localeResetFilter() {
+      if (this.resetFilter === undefined) {
+        return this.t("i.table.resetFilter");
+      } else {
+        return this.resetFilter;
+      }
+    },
+    localeFilterResultL() {
+      if (this.filterResultL === undefined) {
+        return this.t("i.table.filterResultL");
+      } else {
+        return this.filterResultL;
+      }
+    },
+    localeFilterResultR() {
+      if (this.filterResultR === undefined) {
+        return this.t("i.table.filterResultR");
+      } else {
+        return this.filterResultR;
       }
     },
     wrapClasses() {

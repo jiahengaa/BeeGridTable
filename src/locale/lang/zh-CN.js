@@ -14,7 +14,13 @@ const lang = {
             confirmFilter: "筛选",
             resetFilter: "重置",
             clearFilter: "全部",
-            sumText: "合计"
+            sumText: "合计",
+            filterContain: "包含",
+            filterNotContain: "不包含",
+            filterStartWith: "以...开始",
+            filterEndWith: "结束于",
+            filterResultL: "，筛选结果共",
+            filterResultR: "条"
         },
         datepicker: {
             selectDate: "选择日期",
