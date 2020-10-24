@@ -479,7 +479,6 @@ export default {
     },
     localeFilterEndWith() {
       if (this.filterEndWith === undefined) {
-        console.log(this.t("i.table.filterEndWith"));
         return this.t("i.table.filterEndWith");
       } else {
         return this.filterEndWith;
