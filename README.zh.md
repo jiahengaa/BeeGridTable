@@ -43,6 +43,8 @@ import store from "./store";
 import BeeGridTable from "beegridtable";
 import BeeLocale from "beegridtable/src/locale";
 
+import 'beegridtable/dist/styles/beegridtable.css';
+
 Vue.use(BeeGridTable, {
   BeeLocale,
   capture: true,
