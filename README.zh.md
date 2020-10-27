@@ -41,12 +41,13 @@ import router from "./router";
 import store from "./store";
 
 import BeeGridTable from "beegridtable";
-import BeeLocale from "beegridtable/src/locale";
+//import BeeLocale from "beegridtable/src/locale"; //默认为英语
+import BeelocaleZh from 'beegridtable/src/locale/lang/zh-CN' // 设置中文为默认语言
 
 import 'beegridtable/dist/styles/beegridtable.css';
 
 Vue.use(BeeGridTable, {
-  BeeLocale,
+  locale:BeelocaleZh, //此处必须这样写
   capture: true,
 });
 
