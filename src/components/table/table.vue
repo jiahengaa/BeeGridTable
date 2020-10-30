@@ -199,7 +199,7 @@
         <slot name="footer"></slot>
       </div>
 
-      <div style="margin-top: 15px">
+      <div style="margin-top: 15px" v-if="showPager">
         <Page
           show-total
           :filterResultL="localeFilterResultL"
@@ -396,6 +396,10 @@ export default {
     },
     resetFilter: {
       type: String,
+    },
+    showPager: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -745,11 +749,16 @@ export default {
       this.getRenderData();
     },
     getRenderData() {
-      var skipNum = (this.currentIndex - 1) * this.currentSize;
-      this.renderData =
-        skipNum + this.currentSize >= this.rebuildData.length
-          ? this.rebuildData.slice(skipNum, this.rebuildData.length)
-          : this.rebuildData.slice(skipNum, skipNum + this.currentSize);
+      if (this.showPager) {
+        var skipNum = (this.currentIndex - 1) * this.currentSize;
+
+        this.renderData =
+          skipNum + this.currentSize >= this.rebuildData.length
+            ? this.rebuildData.slice(skipNum, this.rebuildData.length)
+            : this.rebuildData.slice(skipNum, skipNum + this.currentSize);
+      } else {
+        this.renderData = this.rebuildData;
+      }
     },
     makeFilterRows(tempColRows) {
       let hRows = [];
@@ -1359,8 +1368,12 @@ export default {
       this.rebuildDataStr = JSON.stringify(
         this.makeDataWithSortAndFilter(sender, column)
       );
-      this.$refs.page.currentPage = 1;
-      this.currentIndex = 1;
+
+      if (this.showPager) {
+        this.$refs.page.currentPage = 1;
+
+        this.currentIndex = 1;
+      }
       this.getRenderData();
     },
     makeObjData() {
