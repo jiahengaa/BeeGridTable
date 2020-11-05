@@ -506,16 +506,24 @@ export default {
     },
     handleInput(e, fcolumn) {
       if (
-        e === undefined ||
-        e.data === null ||
-        e.data === "" ||
-        e.data.replace(/(^s*)|(s*$)/g, "").length == 0
+        e !== undefined &&
+        (e.inputType === "deleteContentBackward" ||
+          e.inputType === "insertFromPaste")
       ) {
-        fcolumn.filterValue = null;
-        fcolumn._filterValue = null;
-        this.$parent.doSortAndFilter(null, fcolumn);
-      } else {
         this.onInputEvt(e, fcolumn);
+      } else {
+        if (
+          e === undefined ||
+          e.data === null ||
+          e.data === "" ||
+          e.data.replace(/(^s*)|(s*$)/g, "").length == 0
+        ) {
+          fcolumn.filterValue = null;
+          fcolumn._filterValue = null;
+          this.$parent.doSortAndFilter(null, fcolumn);
+        } else {
+          this.onInputEvt(e, fcolumn);
+        }
       }
     },
     onDateOk(e, fcolumn) {
