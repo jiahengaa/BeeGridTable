@@ -199,7 +199,7 @@
         <slot name="footer"></slot>
       </div>
 
-      <div style="margin-top: 15px">
+      <div style="margin-top: 15px" v-if="showPager">
         <Page
           show-total
           :filterResultL="localeFilterResultL"
@@ -397,6 +397,10 @@ export default {
     resetFilter: {
       type: String,
     },
+    showPager: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -547,12 +551,20 @@ export default {
       }
       if (this.height) {
         let height = parseInt(this.height) + summaryHeight;
-        style.height = `${height + pageRowHeight}px`;
+        if (this.showPager) {
+          style.height = `${height + pageRowHeight}px`;
+        } else {
+          style.height = `${height}px`;
+        }
       }
       if (this.maxHeight) {
         const maxHeight =
           parseInt(this.maxHeight) + summaryHeight + pageRowHeight;
-        style.maxHeight = `${maxHeight + pageRowHeight}px`;
+        if (this.showPager) {
+          style.maxHeight = `${maxHeight + pageRowHeight}px`;
+        } else {
+          style.maxHeight = `${maxHeight}px`;
+        }
       }
       if (this.width) style.width = `${this.width}px`;
       return style;
@@ -616,6 +628,7 @@ export default {
     },
     bodyStyle() {
       let style = {};
+
       if (this.bodyHeight !== 0) {
         const height = this.bodyHeight;
         if (this.height) {
@@ -745,11 +758,16 @@ export default {
       this.getRenderData();
     },
     getRenderData() {
-      var skipNum = (this.currentIndex - 1) * this.currentSize;
-      this.renderData =
-        skipNum + this.currentSize >= this.rebuildData.length
-          ? this.rebuildData.slice(skipNum, this.rebuildData.length)
-          : this.rebuildData.slice(skipNum, skipNum + this.currentSize);
+      if (this.showPager) {
+        var skipNum = (this.currentIndex - 1) * this.currentSize;
+
+        this.renderData =
+          skipNum + this.currentSize >= this.rebuildData.length
+            ? this.rebuildData.slice(skipNum, this.rebuildData.length)
+            : this.rebuildData.slice(skipNum, skipNum + this.currentSize);
+      } else {
+        this.renderData = this.rebuildData;
+      }
     },
     makeFilterRows(tempColRows) {
       let hRows = [];
@@ -1359,8 +1377,12 @@ export default {
       this.rebuildDataStr = JSON.stringify(
         this.makeDataWithSortAndFilter(sender, column)
       );
-      this.$refs.page.currentPage = 1;
-      this.currentIndex = 1;
+
+      if (this.showPager) {
+        this.$refs.page.currentPage = 1;
+
+        this.currentIndex = 1;
+      }
       this.getRenderData();
     },
     makeObjData() {
@@ -1495,6 +1517,32 @@ export default {
     if (!this.context) this.currentContext = this.$parent;
     this.showSlotHeader = this.$slots.header !== undefined;
     this.showSlotFooter = this.$slots.footer !== undefined;
+
+    setTimeout(() => {
+      this.objData = this.makeObjData();
+      this.originalData = this.makeData();
+      this.rebuildDataStr = JSON.stringify(this.makeDataWithSortAndFilter());
+
+      if (this.rebuildData !== undefined) {
+        const oldDataLen = this.rebuildData.length;
+
+        if (this.$refs.page !== undefined) {
+          this.currentIndex = this.$refs.page.currentPage;
+          this.currentSize = this.$refs.page.currentPageSize;
+        } else {
+          this.currentIndex = 0;
+          this.currentSize = 10;
+        }
+
+        this.getRenderData();
+        // this.handleResize();
+        // if (!oldDataLen) {
+        //   this.fixedHeader();
+        // }
+      } else {
+        console.log("undefined rebuildData!");
+      }
+    }, 0);
   },
 
   beforeMount() {

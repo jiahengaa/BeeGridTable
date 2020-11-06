@@ -519,7 +519,6 @@ export default {
           e.data.replace(/(^\s*)|(\s*$)/g, "").length == 0
         ) {
           fcolumn.filterValue = fcolumn._filterValue;
-
           this.$parent.doSortAndFilter(null, fcolumn);
         } else {
           this.onInputEvt(e, fcolumn);

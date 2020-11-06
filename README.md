@@ -41,10 +41,13 @@ import router from "./router";
 import store from "./store";
 
 import BeeGridTable from "beegridtable";
-import BeeLocale from "beegridtable/src/locale";
+//import BeeLocale from "beegridtable/src/locale"; //default English
+import BeelocaleZh from 'beegridtable/src/locale/lang/zh-CN' // Set zh-CN default
+
+import 'beegridtable/dist/styles/beegridtable.css';
 
 Vue.use(BeeGridTable, {
-  BeeLocale,
+  locale:BeelocaleZh,
   capture: true,
 });
 
