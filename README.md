@@ -7,6 +7,7 @@ BeeGridTable , is a Highly Customizable Table UI component library based on Vue.
 #### [Interactive Document](http://www.beegridtable.com/index)
 
 http://www.beegridtable.com/index
+![home](https://www.codeproject.com/KB/Articles/5286163/extracted-image-1.png)
 
 #### Installation
 
@@ -62,7 +63,7 @@ new Vue({
 
 -   Basic Simple
 
-![basic.png](./demos/basic.png)
+![basic.png](https://www.codeproject.com/KB/Articles/5286163/extracted-image-2.png)
 
 ```
 //Vue Template
@@ -105,7 +106,8 @@ data() {
 ```
 
 -   Fixed
-    ![fixed.png](./demos/fixed.png)
+
+![fixed.png](https://www.codeproject.com/KB/Articles/5286163/extracted-image-3.png)
 
 ```
 //Vue Template
