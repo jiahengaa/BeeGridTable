@@ -4,7 +4,7 @@
 
 BeeGridTable ，是一款基于 Vue2.js 的可高定制化的表格控件. 更丰富的功能、更加高效、易于使用!
 
-#### [主页](http://www.beegridtable.com/index)
+#### [可交互文档](http://www.beegridtable.com/index)
 
 http://www.beegridtable.com/index
 
