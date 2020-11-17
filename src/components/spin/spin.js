@@ -37,12 +37,20 @@ Spin.newInstance = properties => {
                     }
                 });
             }
+
+            let baseZIndex = 2010;
+            if (this.$BEETABLE) {
+                if (this.$BEETABLE.zIndex) {
+                    baseZIndex += this.$BEETABLE.zIndex;
+                }
+            }
+
             return h(
                 "div",
                 {
                     class: "bee-spin-fullscreen bee-spin-fullscreen-wrapper",
                     style: {
-                        "z-index": 2010 + tIndex
+                        "z-index": baseZIndex + tIndex
                     }
                 },
                 [vnode]

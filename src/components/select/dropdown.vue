@@ -40,7 +40,14 @@ export default {
       let style = {};
       if (this.width) style.minWidth = `${this.width}px`;
 
-      if (this.transfer) style["z-index"] = 1060 + this.tIndex;
+      let baseZIndex = 1060;
+      if (this.$BEETABLE) {
+        if (this.$BEETABLE.zIndex) {
+          baseZIndex = this.$BEETABLE.zIndex;
+        }
+      }
+
+      if (this.transfer) style["z-index"] = baseZIndex + this.tIndex;
 
       return style;
     },

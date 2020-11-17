@@ -73,7 +73,14 @@ export default {
     },
     wrapStyles() {
       let styles = Object.assign({}, this.styles);
-      styles["z-index"] = 1010 + this.tIndex;
+
+      let baseZIndex = 1010;
+      if (this.$BEETABLE) {
+        if (this.$BEETABLE.zIndex) {
+          baseZIndex += this.$BEETABLE.zIndex;
+        }
+      }
+      styles["z-index"] = baseZIndex + this.tIndex;
 
       return styles;
     },

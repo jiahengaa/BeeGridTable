@@ -120,7 +120,14 @@ export default {
     },
     dropStyles() {
       let styles = {};
-      if (this.transfer) styles["z-index"] = 1060 + this.tIndex;
+
+      let baseZIndex = 1060;
+      if (this.$BEETABLE) {
+        if (this.$BEETABLE.zIndex) {
+          baseZIndex = this.$BEETABLE.zIndex;
+        }
+      }
+      if (this.transfer) styles["z-index"] = baseZIndex + this.tIndex;
 
       return styles;
     },

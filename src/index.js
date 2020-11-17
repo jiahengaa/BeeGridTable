@@ -62,6 +62,7 @@ const install = function(Vue, opts = {}) {
 
     Vue.prototype.$BEETABLE = {
         size: opts.size || "",
+        zIndex: "zIndex" in opts ? opts.zIndex : "1060",
         transfer: "transfer" in opts ? opts.transfer : "",
         capture: "capture" in opts ? opts.capture : true,
         select: {
