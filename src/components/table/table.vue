@@ -655,10 +655,12 @@ export default {
       return this.cloneColumns;
     },
     leftFixedColumns() {
-      return this.cloneColumns.filter((p) => p.fixed === "left");
+      // return this.cloneColumns.filter((p) => p.fixed === "left");
+      return convertColumnOrder(this.cloneColumns, "left");
     },
     rightFixedColumns() {
-      return this.cloneColumns.filter((p) => p.fixed === "right");
+      //return this.cloneColumns.filter((p) => p.fixed === "right");
+      return convertColumnOrder(this.cloneColumns, "right");
     },
     isLeftFixed() {
       return this.columns.some((col) => col.fixed && col.fixed === "left");
