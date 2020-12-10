@@ -195,6 +195,105 @@ columns: [
     ],
 ```
 
+- Column组件
+```
+    //Template
+    <BeeGridTable
+      border
+      height="560"
+      :showSummary="false"
+      fixed="left"
+      :data="data"
+    >
+      <BeeColumn field="code" title="Code"></BeeColumn>
+      <BeeColumn field="name" title="Name" resizable></BeeColumn>
+
+      <BeeColumn field="sex" title="Sex" type="number">
+        <template slot-scope="{ row }">
+          <i
+            style="font-size: x-large"
+            class="bee-sys-icon md-man"
+            v-if="row.sex === 0"
+          ></i>
+          <i
+            style="font-size: x-large; color: red"
+            class="bee-sys-icon md-woman"
+            v-else
+          ></i>
+        </template>
+      </BeeColumn>
+
+      <BeeColumn field="state" title="State">
+        <template slot-scope="{ row }">
+          <Select v-model="row.state" style="width: 100px">
+            <Option
+              v-for="item in stateList"
+              :value="item.value"
+              :key="item.value"
+              >{{ item.label }}</Option
+            >
+          </Select>
+        </template>
+      </BeeColumn>
+
+      <BeeColumn field="group" title="Group">
+        <template slot-scope="{ row }">
+          <Select v-model="row.groupCode" style="width: 100px">
+            <Option
+              v-for="item in groupList"
+              :value="item.code"
+              :key="item.name"
+              >{{ item.name }}</Option
+            >
+          </Select>
+        </template>
+      </BeeColumn>
+      <BeeColumnHeader field="sex">
+        <template slot-scope="{ column }">
+          <Button style="color: red">{{ column.title }}</Button>
+        </template>
+      </BeeColumnHeader>
+      <BeeColumnFilter
+        field="sex"
+        :selectedSexCode="selectedSexCode"
+        :filterValue="1"
+        type="number"
+      >
+        <template slot-scope="{ column, doSortAndFilter }">
+          <RadioGroup
+            v-model="column.selectedSexCode"
+            @on-change="sexSelected(column, doSortAndFilter)"
+          >
+            <Radio label="-1">
+              <i class="bee-sys-icon md-people"></i>
+              <span>All</span>
+            </Radio>
+            <Radio label="0">
+              <i class="bee-sys-icon md-man"></i>
+              <span>Boy</span>
+            </Radio>
+            <Radio label="1">
+              <i style="color: red" class="bee-sys-icon md-woman"></i>
+              <span>Girl</span>
+            </Radio>
+          </RadioGroup>
+        </template>
+      </BeeColumnFilter>
+    </BeeGridTable>
+```
+
+```
+  //JS
+  data() {
+    return {
+       // columns: [],
+      data: [],
+      ...
+    };
+  },
+      
+```
+
 #### [More](http://www.beegridtable.com/index)
 
 #### [License MIT](./LICENSE)
