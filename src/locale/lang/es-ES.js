@@ -16,7 +16,7 @@ const lang = {
             clearFilter: "Todos",
             sumText: "Suma",
             filterContain: "Contiene",
-            filterNotContain: "No contienee",
+            filterNotContain: "No contiene",
             filterStartWith: "Empezar con",
             filterEndWith: "Terminar con",
             filterResultL: ", el resultado del filtro",
