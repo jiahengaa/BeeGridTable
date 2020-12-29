@@ -671,28 +671,13 @@ const convertToRows = (columns, fixedType = false) => {
 
     const allColumns = getAllColumns(originColumns, true);
 
-    allColumns.forEach(column => {
-        if (!column.filterHeight) {
-            column.filterHeight = 42;
-        }
-        if (fixedType === false) {
-            if (!column.children) {
-                column.rowSpan = maxLevel - column.level + 1;
-            } else {
-                column.rowSpan = 1;
-            }
-            rows[column.level - 1].push(column);
+    allColumns.forEach((column) => {
+        if (!column.children) {
+            column.rowSpan = maxLevel - column.level + 1;
         } else {
-            if (!column.children) {
-                column.rowSpan =
-                    maxLevel - column.level + (maxLevel === 1 ? 1 : 2);
-            } else {
-                column.rowSpan = 1;
-            }
-            if (column.fixed && column.fixed === fixedType) {
-                rows[column.level - 1].push(column);
-            }
+            column.rowSpan = 1;
         }
+        rows[column.level - 1].push(column);
     });
 
     return rows;

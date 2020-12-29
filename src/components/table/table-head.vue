@@ -3,7 +3,7 @@
     <colgroup>
       <col
         v-for="(column, colindex) in columns"
-        :width="cellWidth(column)"
+        :width="setCellWidth(column)"
         :key="colindex"
       />
       <col
@@ -86,24 +86,11 @@
             :rowspan="headRows.length"
           ></th>
         </tr>
-
-        <template
-          v-if="cols.length > 0 && fixed !== false && headRows.length > 1"
-        >
-          <tr
-            v-for="colIndex in headRows.length"
-            :key="rowIndex + '-' + colIndex"
-          >
-            <th :colspan="1" style="height: 42px"></th>
-          </tr>
-        </template>
       </template>
 
-      <tr v-if="showFilter">
-        <th
+      <tr v-if="showFilter" :class="filterRowClasses()">
+        <td
           v-for="(fcolumn, hrowIndex) in filterRows"
-          :colspan="fcolumn.colSpan"
-          :rowspan="fcolumn.rowSpan"
           :key="'fhcrow' + hrowIndex"
           class="th-filter"
           :class="filterThClasses(fcolumn)"
@@ -202,7 +189,7 @@
               </template>
             </div>
           </div>
-        </th>
+        </td>
       </tr>
     </thead>
   </table>
@@ -212,7 +199,7 @@ import CheckboxGroup from "../checkbox/checkbox-group.vue";
 import Checkbox from "../checkbox/checkbox.vue";
 import Poptip from "../poptip/poptip.vue";
 import iButton from "../button/button.vue";
-
+import TableTr from "./table-tr.vue";
 import TableHeadSlot from "./headSlot";
 import TableHeadFilterSlot from "./headFilterSlot";
 import renderHeader from "./header";
@@ -232,6 +219,7 @@ export default {
     TableHeadFilterSlot,
     iButton,
     renderHeader,
+    TableTr,
   },
   inject: ["tableRoot"],
   props: {
@@ -519,6 +507,7 @@ export default {
           e.data.replace(/(^\s*)|(\s*$)/g, "").length == 0
         ) {
           fcolumn.filterValue = fcolumn._filterValue;
+
           this.$parent.doSortAndFilter(null, fcolumn);
         } else {
           this.onInputEvt(e, fcolumn);
@@ -649,6 +638,9 @@ export default {
             ._filterChecked.length,
         },
       ];
+    },
+    filterRowClasses() {
+      return `${this.prefixCls}-filter-row`;
     },
     selectAll() {
       const status = !this.isSelectAll;
