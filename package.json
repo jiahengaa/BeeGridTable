@@ -1,6 +1,6 @@
 {
     "name": "beegridtable",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "title": "BeeGridTable",
     "description": "A high quality DataTable component Library with Vue.js",
     "homepage": "http://www.beegridtable.com",
@@ -21,7 +21,7 @@
         "types"
     ],
     "scripts": {
-        "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8082 --config build/webpack.dev.config.js",
+        "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback  --host 192.168.3.44 --port 8082 --config build/webpack.dev.config.js",
         "dev:s": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8083  --config build/webpack.dev.config.js",
         "dist:style": "gulp --gulpfile build/build-style.js",
         "dist:dev": "webpack --config build/webpack.dist.dev.config.js",

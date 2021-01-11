@@ -135,7 +135,7 @@
     <Options
       :show-sizer="showSizer"
       :page-size="currentPageSize"
-      :page-size-opts="pageSizeOpts"
+      :page-size-opts="currentPageSizeOpts"
       :placement="placement"
       :transfer="transfer"
       :show-elevator="showElevator"
@@ -185,11 +185,9 @@ export default {
       type: Number,
       default: 10,
     },
-    pageSizeOpts: {
-      type: Array,
-      default() {
-        return [10, 20, 30, 40];
-      },
+    pageCount: {
+      type: Number,
+      default: 4,
     },
     placement: {
       validator(value) {
@@ -250,6 +248,7 @@ export default {
       prefixCls: prefixCls,
       currentPage: this.current,
       currentPageSize: this.pageSize,
+      currentPageSizeOpts: [10, 20, 30, 40],
     };
   },
   watch: {
@@ -262,8 +261,28 @@ export default {
     current(val) {
       this.currentPage = val;
     },
-    pageSize(val) {
-      this.currentPageSize = val;
+    pageSize: {
+      handler(val) {
+        this.currentPageSize = val;
+        if (val > 0 && this.pageCount) {
+          this.currentPageSizeOpts = [];
+          for (var i = 1; i <= this.pageCount; i++) {
+            this.currentPageSizeOpts.push(val * i);
+          }
+        }
+      },
+      immediate: true,
+    },
+    pageCount: {
+      handler(val) {
+        if (this.pageSize > 0 && val > 0) {
+          this.currentPageSizeOpts = [];
+          for (var i = 1; i <= val; i++) {
+            this.currentPageSizeOpts.push(i * this.pageSize);
+          }
+        }
+      },
+      immediate: true,
     },
   },
   computed: {

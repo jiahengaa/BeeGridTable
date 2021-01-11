@@ -69,6 +69,14 @@ export declare class Table extends Vue {
      */
     size?: string;
     /**
+     * 表格分页每页大小
+     */
+    "page-size"?: number | string;
+    /**
+     * 表格分页下拉选择
+     */
+    "page-count"?: number | string;
+    /**
      * 数据为空时显示的提示内容
      * @default 暂无数据
      */

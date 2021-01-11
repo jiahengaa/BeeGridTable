@@ -211,6 +211,8 @@
           size="small"
           show-elevator
           show-sizer
+          :pageSize="pageSize"
+          :pageCount="pageCount"
           @on-change="onPageChange"
           @on-page-size-change="onPageSizeChange"
         ></Page>
@@ -400,6 +402,14 @@ export default {
     showPager: {
       type: Boolean,
       default: true,
+    },
+    pageSize: {
+      type: Number,
+      default: 10,
+    },
+    pageCount: {
+      type: Number,
+      default: 4,
     },
   },
   data() {
