@@ -20,7 +20,15 @@ const lang = {
             filterStartWith: "StartWith",
             filterEndWith: "EndWith",
             filterResultL: ", the filter result ",
-            filterResultR: " items"
+            filterResultR: " items",
+            filterEqual:"equal",
+            filterNotEqual:"not equal",
+            filterLess:"less",
+            filterLessEqual:"less or equal",
+            filterLarger:"greater",
+            filterLargerEqual:"greater or equal",
+            filterBetween:"between",
+            filterBetweenPlaceHolder:"from...to...",
         },
         datepicker: {
             selectDate: "Select date",

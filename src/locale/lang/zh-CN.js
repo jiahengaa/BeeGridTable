@@ -20,7 +20,15 @@ const lang = {
             filterStartWith: "以...开始",
             filterEndWith: "结束于",
             filterResultL: "，筛选结果共",
-            filterResultR: "条"
+            filterResultR: "条",
+            filterEqual:"等于",
+            filterNotEqual:"不等于",
+            filterLess:"小于",
+            filterLessEqual:"小于等于",
+            filterLarger:"大于",
+            filterLargerEqual:"大于等于",
+            filterBetween:"之间",
+            filterBetweenPlaceHolder:"从...到...",
         },
         datepicker: {
             selectDate: "选择日期",
