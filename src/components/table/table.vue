@@ -1297,7 +1297,10 @@ export default {
       });
     },
     filterData(data, column) {
-      if (column._filterOp.filterOperation !== "Custom") {
+      if (
+        column._filterOp !== undefined &&
+        column._filterOp.filterOperation !== "Custom"
+      ) {
         if (
           typeof column._filterMethod !== "function" ||
           typeof column.filterRemote === "function"
@@ -1349,7 +1352,7 @@ export default {
           }
         }
       } else {
-        if (column._filterValue === undefined) {
+        if (column._filterValue === undefined || column._filterValue === null) {
           return data;
         }
       }
