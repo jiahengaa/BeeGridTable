@@ -396,6 +396,30 @@ export default {
     filterResultR: {
       type: String,
     },
+    filterEqual: {
+      type: String,
+    },
+    filterNotEqual: {
+      type: String,
+    },
+    filterLess: {
+      type: String,
+    },
+    filterLessEqual: {
+      type: String,
+    },
+    filterLarger: {
+      type: String,
+    },
+    filterLargerEqual: {
+      type: String,
+    },
+    filterBetween: {
+      type: String,
+    },
+    filterBetweenPlaceHolder: {
+      type: String,
+    },
     resetFilter: {
       type: String,
     },
@@ -519,6 +543,63 @@ export default {
         return this.filterResultR;
       }
     },
+    localeFilterEqual() {
+      if (this.filterEqual === undefined) {
+        return this.t("i.table.filterEqual");
+      } else {
+        return this.filterEqual;
+      }
+    },
+    localeFilterNotEqual() {
+      if (this.filterNotEqual === undefined) {
+        return this.t("i.table.filterNotEqual");
+      } else {
+        return this.filterNotEqual;
+      }
+    },
+    localeFilterLess() {
+      if (this.filterLess === undefined) {
+        return this.t("i.table.filterLess");
+      } else {
+        return this.filterLess;
+      }
+    },
+    localeFilterLessEqual() {
+      if (this.filterLessEqual === undefined) {
+        return this.t("i.table.filterLessEqual");
+      } else {
+        return this.filterLessEqual;
+      }
+    },
+    localeFilterLarger() {
+      if (this.filterLarger === undefined) {
+        return this.t("i.table.filterLarger");
+      } else {
+        return this.filterLarger;
+      }
+    },
+    localeFilterLargerEqual() {
+      if (this.filterLargerEqual === undefined) {
+        return this.t("i.table.filterLargerEqual");
+      } else {
+        return this.filterLargerEqual;
+      }
+    },
+    localeFilterBetween() {
+      if (this.filterBetween === undefined) {
+        return this.t("i.table.filterBetween");
+      } else {
+        return this.filterBetween;
+      }
+    },
+    localeFilterBetweenPlaceHolder() {
+      if (this.filterBetweenPlaceHolder === undefined) {
+        return this.t("i.table.filterBetweenPlaceHolder");
+      } else {
+        return this.filterBetweenPlaceHolder;
+      }
+    },
+
     wrapClasses() {
       return [
         `${prefixCls}-wrapper`,
@@ -792,6 +873,16 @@ export default {
         hRows = fRows;
       } else {
         hRows = [...tempColRows[0]];
+
+        for (var i = 0; i < hRows.length; i++) {
+          if (
+            hRows[i].dateType !== null &&
+            hRows[i].dateType !== undefined &&
+            hRows[i].type === "date"
+          ) {
+            hRows[i]._dateType = hRows[i].dateType;
+          }
+        }
       }
       return hRows;
     },
@@ -804,6 +895,13 @@ export default {
             hRows[i].children === null ||
             hRows[i].children.length === 0
           ) {
+            if (
+              hRows[i].dateType !== null &&
+              hRows[i].dateType !== undefined &&
+              hRows[i].type === "date"
+            ) {
+              hRows[i]._dateType = hRows[i].dateType;
+            }
             fRows.push(hRows[i]);
           } else {
             fRows.push(...this.getFilterColumns(hRows[i].children));
@@ -1213,6 +1311,23 @@ export default {
             column._filterValue === ""
           ) {
             return data;
+          }
+        } else if (column._type === "date") {
+          if (column._dateType === undefined || column._dateType === null) {
+            return data;
+          }
+          if (column._dateType.includes("range")) {
+            if (
+              JSON.stringify(column._filterValue) ===
+                JSON.stringify(["", ""]) ||
+              column._filterValue === null
+            ) {
+              return data;
+            }
+          } else {
+            if (column._filterValue === null || column._filterValue === "") {
+              return data;
+            }
           }
         } else {
           if (

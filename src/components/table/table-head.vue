@@ -169,6 +169,7 @@
                 >
                   <Date-picker
                     :type="fcolumn._dateType"
+                    clearable
                     placement="bottom-end"
                     :transfer="true"
                     :confirm="false"
@@ -252,50 +253,50 @@ export default {
       numberFilter: [
         {
           filterOperation: "Equals",
-          displayName: "等于",
+          displayName: this.tableRoot.localeFilterEqual,
           placeholder: "",
           icon: "equil",
         },
         {
           filterOperation: "NotEquals",
-          displayName: "不等于",
+          displayName: this.tableRoot.localeFilterNotEqual,
           placeholder: "",
           icon: "notequil",
         },
         {
           filterOperation: "Less",
-          displayName: "小于",
+          displayName: this.tableRoot.localeFilterLess,
           placeholder: "",
           icon: "less",
         },
         {
           filterOperation: "Greater",
-          displayName: "大于",
+          displayName: this.tableRoot.localeFilterLarger,
           placeholder: "",
           icon: "greater",
         },
         {
           filterOperation: "LessOrEquals",
-          displayName: "小于或等于",
+          displayName: this.tableRoot.localeFilterLessEqual,
           placeholder: "",
           icon: "lessEquil",
         },
         {
           filterOperation: "GreaterOrEquals",
-          displayName: "大于或等于",
+          displayName: this.tableRoot.localeFilterLargerEqual,
           placeholder: "",
           icon: "greaterEquil",
         },
         {
           filterOperation: "Between",
-          displayName: "之间",
+          displayName: this.tableRoot.localeFilterLargerEqual,
           placeholder: "",
           icon: "bettween",
         },
 
         {
           filterOperation: "Reset",
-          displayName: "重置",
+          displayName: this.tableRoot.localeResetFilter,
           placeholder: "",
           icon: "search",
         },
@@ -420,72 +421,67 @@ export default {
   },
   methods: {
     dateFilter(column) {
-      const dateTypes = [
-        "date",
-        "daterange",
-        "datetime",
-        "datetimerange",
-        "year",
-        "month",
-      ];
-      const curDateType = column._dateType
-        ? dateTypes.some((p) => p === column._dateType)
-          ? column._dateType
+      const dateTypes = ["date", "datetime", "year", "month"];
+
+      const curDateType = column.dateType
+        ? dateTypes.some((p) => p === column.dateType)
+          ? column.dateType
           : "date"
         : "date";
+
       return [
         {
           filterOperation: "Equals",
-          displayName: "等于",
+          displayName: this.tableRoot.localeFilterEqual,
           placeholder: "",
           dateType: curDateType,
           icon: "equil",
         },
         {
           filterOperation: "NotEquals",
-          displayName: "不等于",
+          displayName: this.tableRoot.localeFilterNotEqual,
           placeholder: "",
           dateType: curDateType,
           icon: "notequil",
         },
         {
           filterOperation: "Less",
-          displayName: "小于",
+          displayName: this.tableRoot.localeFilterLess,
           placeholder: "",
           dateType: curDateType,
           icon: "less",
         },
         {
           filterOperation: "Greater",
-          displayName: "大于",
+          displayName: this.tableRoot.localeFilterLarger,
           placeholder: "",
           dateType: curDateType,
           icon: "greater",
         },
         {
           filterOperation: "LessOrEquals",
-          displayName: "小于或等于",
+          displayName: this.tableRoot.localeFilterLessEqual,
           placeholder: "",
           dateType: curDateType,
           icon: "lessEquil",
         },
         {
           filterOperation: "GreaterOrEquals",
-          displayName: "大于或等于",
+          displayName: this.tableRoot.localeFilterLargerEqual,
           placeholder: "",
           dateType: curDateType,
           icon: "greaterEquil",
         },
         {
           filterOperation: "Between",
-          displayName: "之间",
-          placeholder: "从...到...",
+          displayName: this.tableRoot.localeFilterLargerEqual,
+          placeholder: this.tableRoot.localeFilterBetweenPlaceHolder,
           dateType: "datetimerange",
           icon: "bettween",
         },
         {
           filterOperation: "Reset",
-          displayName: "重置",
+          displayName: this.tableRoot.localeResetFilter,
           placeholder: "",
           dateType: curDateType,
           icon: "search",
@@ -518,6 +514,7 @@ export default {
       this.$parent.doSortAndFilter(null, fcolumn);
     },
     onDateClear(e, fcolumn) {
+      fcolumn._filterValue = null;
       this.$parent.doSortAndFilter(null, fcolumn);
     },
     onDateChange(e, fcolumn) {

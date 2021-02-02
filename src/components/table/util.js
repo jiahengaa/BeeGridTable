@@ -319,7 +319,7 @@ const getDateFilter = filterOp => {
                 if (row[field].length === "yyyy-MM-dd".length) {
                     curDate += " 00:00:00";
                 }
-
+                
                 return (
                     new Date(curDate).getTime() >=
                         new Date(filterValue[0]).getTime() &&
@@ -612,7 +612,7 @@ const convertToRows = (columns, fixedType = false) => {
             ) {
                 const filterOp = {
                     filterOperation: "Reset",
-                    displayName: "重置",
+                    displayName: "Reset",
                     icon: "search"
                 };
                 column._filterOp = filterOp;
@@ -620,7 +620,7 @@ const convertToRows = (columns, fixedType = false) => {
             } else {
                 const filterOp = {
                     filterOperation: column.filterOperation || "Custom",
-                    displayName: column.filterName || "自定义筛选",
+                    displayName: column.filterName || "CustomFilter",
                     icon: column.filterIcon || "search"
                 };
                 column._filterOp = filterOp;
@@ -648,7 +648,7 @@ const convertToRows = (columns, fixedType = false) => {
         if (column.filterMethod === undefined || column.filterMethod === null) {
             const filterOp = {
                 filterOperation: "Reset",
-                displayName: "重置",
+                displayName: "Reset",
                 icon: "search"
             };
             column._filterOp = filterOp;
@@ -656,7 +656,7 @@ const convertToRows = (columns, fixedType = false) => {
         } else {
             const filterOp = {
                 filterOperation: column.filterOperation || "Custom",
-                displayName: column.filterName || "自定义筛选",
+                displayName: column.filterName || "CustomFilter",
                 icon: column.filterIcon || "search"
             };
             column._filterOp = filterOp;

@@ -37,7 +37,7 @@
           >
         </Tooltip>
       </template>
-      <span v-else>{{ row[column.key] }}</span>
+      <span v-else>{{ cellText(row, column) }}</span>
     </template>
     <template v-if="renderType === 'expand' && !row._disableExpand">
       <div :class="expandCls" @click="toggleExpand">
@@ -69,6 +69,12 @@ import TableSlot from "./slot";
 import Icon from "../icon/icon.vue";
 import Checkbox from "../checkbox/checkbox.vue";
 import Tooltip from "../tooltip/tooltip.vue";
+
+import {
+  DEFAULT_FORMATS,
+  TYPE_VALUE_RESOLVER_MAP,
+  getDayCountOfMonth,
+} from "../date-picker/util";
 
 export default {
   name: "TableCell",
@@ -120,6 +126,20 @@ export default {
           [`${this.prefixCls}-cell-expand-expanded`]: this.expanded,
         },
       ];
+    },
+    cellText() {
+      return (row, column) => {
+        if (column.type === "date") {
+          const format = column.format || DEFAULT_FORMATS[column.dateType];
+          const formatter = (
+            TYPE_VALUE_RESOLVER_MAP["datetime"] ||
+            TYPE_VALUE_RESOLVER_MAP["default"]
+          ).formatter;
+
+          return formatter(row[column.key], format);
+        }
+        return row[column.key];
+      };
     },
   },
   methods: {
