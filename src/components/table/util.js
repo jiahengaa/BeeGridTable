@@ -357,6 +357,10 @@ const getStrFilter = filterOp => {
                     return false;
                 }
 
+                if(column.phoneticMatch !== undefined && column.phoneticMatch !== null){
+                    return column.phoneticMatch(column, field, filterValue, row)
+                }
+
                 return (
                     row[field].toString().search(filterValue.trim()) !== -1 ||
                     filterValueIsEmpty
@@ -545,6 +549,9 @@ const getStrFilter = filterOp => {
                     return false;
                 }
 
+                if(column.phoneticMatch !== undefined && column.phoneticMatch !== null){
+                    return column.phoneticMatch(column, field, filterValue, row)
+                }
                 return row[field].toString().search(filterValue.trim()) !== -1;
             };
     }

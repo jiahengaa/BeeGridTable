@@ -51,6 +51,7 @@
         "highlight.js": "^10.2.1",
         "js-calendar": "^1.2.3",
         "lodash.throttle": "^4.1.1",
+        "pinyin-match": "^1.2.0",
         "popper.js": "^1.14.6",
         "tinycolor2": "^1.4.1",
         "v-click-outside-x": "^3.7.1",

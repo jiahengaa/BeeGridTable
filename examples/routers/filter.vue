@@ -68,6 +68,8 @@
   </div>
 </template>
 <script>
+import pinyin from "pinyin-match";
+
 export default {
   data() {
     return {
@@ -75,16 +77,38 @@ export default {
         {
           title: "编号",
           key: "code",
-          width: 150,
+          minWidth: 150,
           resizable: true,
         },
         {
           title: "姓名",
           key: "name",
-          width: 150,
+          minWidth: 150,
+          phoneticMatch: (column, field, filterValue, row) => {
+            var m = pinyin.match(row[field].toString(), filterValue.trim());
+
+            if (m === false) {
+              return false;
+            } else {
+              return true;
+            }
+          },
         },
-        { title: "性别", slot: "sex", key: "sex", width: 150, resizable: true },
-        { title: "年龄", key: "age", width: 150, resizable: true },
+        {
+          title: "time",
+          key: "time",
+          type: "date",
+          dateType: "datetime",
+          format: "yyyy-MM-dd HH:mm:ss",
+        },
+        {
+          title: "性别",
+          slot: "sex",
+          key: "sex",
+          minWidth: 150,
+          resizable: true,
+        },
+        { title: "年龄", key: "age", minWidth: 150, resizable: true },
         {
           title: "分组",
           slot: "group",
@@ -95,13 +119,13 @@ export default {
           title: "观察状态",
           slot: "state",
           key: "state",
-          width: 200,
+          minWidth: 200,
         },
         {
           title: "操作",
           slot: "op",
           key: "op",
-          width: 150,
+          minWidth: 150,
         },
       ],
       data: [],
@@ -283,11 +307,38 @@ export default {
   mounted() {
     setTimeout(() => {
       let tempData = [];
+
+      tempData.push({
+        key: "ad0",
+        code: `abc220`,
+        name: "lj王自健",
+        time: 1610629800466 + i * 100,
+        birthDay: "",
+        age: (i % 65) + 5,
+        groupCode: (i % 3) + 1,
+        groupName: "王牌组",
+        state: 2,
+        sex: 1,
+      });
+
+      tempData.push({
+        key: "ad65",
+        code: `abc1sd`,
+        name: "kj小齐",
+        time: 1610629800466 + i * 100,
+        birthDay: "",
+        age: (i % 65) + 5,
+        groupCode: (i % 3) + 1,
+        groupName: "小哈组",
+        state: 2,
+        sex: 1,
+      });
       for (var i = 1; i < 1001; i++) {
         tempData.push({
           key: i,
           code: `abc` + i,
           name: "John" + i,
+          time: 1610629800466 + i * 100,
           birthDay: "",
           age: (i % 65) + 5,
           groupCode: (i % 3) + 1,
