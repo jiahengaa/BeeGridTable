@@ -5,12 +5,24 @@
     <Button type="primary" size="large" @click="exportData()">
       <Icon type="ios-download-outline"></Icon>Export data
     </Button>
+    <Button type="primary" size="large" @click="exportXlsx()">
+      <Icon type="ios-download-outline"></Icon>Export array data as xlsx
+    </Button>
+    <Button type="primary" size="large" @click="exportXlsxJson()">
+      <Icon type="ios-download-outline"></Icon>Export json data as xlsx
+    </Button>
+
     <BeeGridTable
       ref="table"
       border
       :columns="columns"
       :data="data"
-    ></BeeGridTable>
+      :defaultCell="true"
+    >
+      <template slot="defaultCell" slot-scope="{ row, column }">
+        <div style="background: beige">{{ row[column.key] }}</div>
+      </template>
+    </BeeGridTable>
 
     <div v-highlight>
       <pre><code class="lang-html">  {{code}}</code></pre>
@@ -55,6 +67,23 @@ export default {
       this.$refs.table.exportCsv({
         filename: "mytable",
       });
+    },
+    exportXlsx() {
+      this.$refs.table.exportXlsx({ dataType: "array" });
+    },
+    exportXlsxJson() {
+      this.$refs.table.exportXlsx({
+        fileName: "调查表",
+        header: ["name", "street"],
+        headerDisplay: { name: "姓名", street: "街道" },
+      });
+    },
+  },
+  computed: {
+    getText() {
+      return (row, column) => {
+        return row[column.key];
+      };
     },
   },
   mounted() {

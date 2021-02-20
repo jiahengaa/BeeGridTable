@@ -246,6 +246,7 @@ import {
 import { on, off } from "../../utils/dom";
 import Csv from "../../utils/csv";
 import ExportCsv from "./export-csv";
+import ExportXlsx from "./exprot-xlsx";
 import Locale from "../../mixins/locale";
 import Mixin from "./mixin";
 import elementResizeDetectorMaker from "element-resize-detector";
@@ -272,6 +273,10 @@ export default {
     };
   },
   props: {
+    defaultCell: {
+      type: Boolean,
+      default: false,
+    },
     data: {
       type: Array,
       default() {
@@ -1624,6 +1629,83 @@ export default {
       const data = Csv(columns, datas, params, noHeader);
       if (params.callback) params.callback(data);
       else ExportCsv.download(params.filename, data);
+    },
+    exportXlsx({ fileName, header, headerDisplay, rows, dataType = "json" }) {
+      if (dataType === "json") {
+        this.exportXlsxJson({
+          fileName,
+          header,
+          headerDisplay,
+          rows,
+        });
+      }
+      if (dataType === "array") {
+        this.exportXlsxAoa({
+          fileName,
+          header,
+          rows,
+        });
+      }
+    },
+    exportXlsxAoa({ fileName, header, rows }) {
+      let defaultHeader = [];
+      for (let i = 0; i < this.columns.length; i++) {
+        defaultHeader.push(this.columns[i].key);
+      }
+      let exportRows = [];
+
+      for (let m = 0; m < this.rebuildData.length; m++) {
+        let row = [];
+        for (let n = 0; n < defaultHeader.length; n++) {
+          row.push(this.rebuildData[m][defaultHeader[n]]);
+        }
+        exportRows.push(row);
+      }
+      ExportXlsx.outPutAoA({
+        header: header ? header : defaultHeader,
+        rows: rows ? rows : exportRows,
+        name: fileName ? fileName : "xlsxfile",
+      });
+    },
+    exportXlsxJson({ fileName, header, headerDisplay, rows }) {
+      let defaultHeader = [];
+      let defaultDisplayHeader = {};
+      if (header !== null && header !== undefined) {
+        defaultHeader = header;
+      } else {
+        for (let i = 0; i < this.columns.length; i++) {
+          defaultHeader.push(this.columns[i].key);
+          defaultDisplayHeader[this.columns[i].key] = this.columns[i].title;
+        }
+      }
+
+      if (headerDisplay !== null && headerDisplay !== undefined) {
+        defaultDisplayHeader = headerDisplay;
+      }
+      for (let i = 0; i < this.columns.length; i++) {
+        if (defaultHeader.some((p) => p === this.columns[i].key)) {
+          if (!defaultDisplayHeader.hasOwnProperty(this.columns[i].key)) {
+            defaultDisplayHeader[this.columns[i].key] = this.columns[i].title;
+          }
+        }
+      }
+
+      let exportRows = [];
+
+      for (let m = 0; m < this.rebuildData.length; m++) {
+        let row = {};
+        for (let n = 0; n < defaultHeader.length; n++) {
+          row[defaultHeader[n]] = this.rebuildData[m][defaultHeader[n]];
+        }
+        exportRows.push(row);
+      }
+
+      ExportXlsx.outPutJson({
+        header: defaultHeader,
+        headerDisplay: defaultDisplayHeader,
+        rows: rows ? rows : exportRows,
+        name: fileName ? fileName : "xlsxfile",
+      });
     },
     dragAndDrop(a, b) {
       this.$emit("on-drag-drop", a, b);

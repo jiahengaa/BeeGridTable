@@ -180,6 +180,10 @@ export default {
     } else {
       this.renderType = "normal";
     }
+
+    if (this.tableRoot.defaultCell === true) {
+      this.renderType = "slot";
+    }
   },
 };
 </script>

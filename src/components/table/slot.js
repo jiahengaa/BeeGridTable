@@ -36,7 +36,21 @@ export default {
                     index: ctx.props.index
                 })
             );
+        } else if (
+            ctx.injections.tableRoot.$scopedSlots['defaultCell'] !==
+            undefined
+        ){
+  
+            return h(
+                "div",
+                ctx.injections.tableRoot.$scopedSlots['defaultCell']({
+                    row: ctx.props.row,
+                    column: ctx.props.column,
+                    index: ctx.props.index
+                })
+            );
         } else {
+      
             return h("div");
         }
     }
