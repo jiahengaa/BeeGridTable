@@ -1630,13 +1630,21 @@ export default {
       if (params.callback) params.callback(data);
       else ExportCsv.download(params.filename, data);
     },
-    exportXlsx({ fileName, header, headerDisplay, rows, dataType = "json" }) {
+    exportXlsx({
+      fileName,
+      header,
+      headerDisplay,
+      rows,
+      formats,
+      dataType = "json",
+    }) {
       if (dataType === "json") {
         this.exportXlsxJson({
           fileName,
           header,
           headerDisplay,
           rows,
+          formats,
         });
       }
       if (dataType === "array") {
@@ -1667,7 +1675,7 @@ export default {
         name: fileName ? fileName : "xlsxfile",
       });
     },
-    exportXlsxJson({ fileName, header, headerDisplay, rows }) {
+    exportXlsxJson({ fileName, header, headerDisplay, rows, formats }) {
       let defaultHeader = [];
       let defaultDisplayHeader = {};
       if (header !== null && header !== undefined) {
@@ -1696,6 +1704,24 @@ export default {
         let row = {};
         for (let n = 0; n < defaultHeader.length; n++) {
           row[defaultHeader[n]] = this.rebuildData[m][defaultHeader[n]];
+
+          if (formats !== null && formats !== undefined) {
+            if (
+              formats[defaultHeader[n]] !== undefined &&
+              formats[defaultHeader[n]] !== null &&
+              formats[defaultHeader[n]].constructor === Function
+            ) {
+              try {
+                row[defaultHeader[n]] = formats[defaultHeader[n]](
+                  row,
+                  this.columns.find((p) => p.key === defaultHeader[n]),
+                  this.rebuildData[m][defaultHeader[n]]
+                );
+              } catch (e) {
+                console.log("format method of defaultHeader[n] not valid", e);
+              }
+            }
+          }
         }
         exportRows.push(row);
       }
