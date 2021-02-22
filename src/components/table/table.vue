@@ -1713,7 +1713,7 @@ export default {
             ) {
               try {
                 row[defaultHeader[n]] = formats[defaultHeader[n]](
-                  row,
+                  this.rebuildData[m],
                   this.columns.find((p) => p.key === defaultHeader[n]),
                   this.rebuildData[m][defaultHeader[n]]
                 );
