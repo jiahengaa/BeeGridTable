@@ -1266,39 +1266,140 @@ export default {
         $body.scrollLeft = $body.scrollLeft - 10;
       }
     },
-    sortData(data, column) {
+    // sortData(data, column) {
+    //   data.sort((a, b) => {
+    //     if (column.sortMethod) {
+    //       return column.sortMethod(
+    //         a[column.key],
+    //         b[column.key],
+    //         column._sortType
+    //       );
+    //     } else {
+    //       if (column._sortType === "asc") {
+    //         return a[column.key] > b[column.key] ? 1 : -1;
+    //       } else if (column._sortType === "desc") {
+    //         return a[column.key] < b[column.key] ? 1 : -1;
+    //       }
+    //     }
+    //   });
+    //   return data;
+    // },
+    sortData(data, type, index) {
+      const key = this.cloneColumns[index].key;
       data.sort((a, b) => {
-        if (column.sortMethod) {
-          return column.sortMethod(
-            a[column.key],
-            b[column.key],
-            column._sortType
-          );
+        if (this.cloneColumns[index].sortMethod) {
+          return this.cloneColumns[index].sortMethod(a[key], b[key], type);
         } else {
-          if (column._sortType === "asc") {
-            return a[column.key] > b[column.key] ? 1 : -1;
-          } else if (column._sortType === "desc") {
-            return a[column.key] < b[column.key] ? 1 : -1;
+          if (type === "asc") {
+            return a[key] > b[key] ? 1 : -1;
+          } else if (type === "desc") {
+            return a[key] < b[key] ? 1 : -1;
           }
         }
       });
-      return data;
-    },
-    handleSort(column, type) {
-      if (column.sortable !== "custom") {
-        if (column._sortType === "normal") {
-          this.rebuildDataStr = JSON.stringify(this.makeDataWithFilter());
-        } else {
-          this.rebuildDataStr = JSON.stringify(
-            this.sortData(this.rebuildData, column)
-          );
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].children && data[i].children.length) {
+          data[i].children = this.sortData(data[i].children, type, index);
         }
       }
+      return data;
+    },
+    makeDataWithSort(rows) {
+      let data = rows;
+      let sortType = "normal";
+      let sortIndex = -1;
+      let isCustom = false;
+      for (let i = 0; i < this.cloneColumns.length; i++) {
+        if (this.cloneColumns[i]._sortType !== "normal") {
+          sortType = this.cloneColumns[i]._sortType;
+          sortIndex = i;
+          isCustom = this.cloneColumns[i].sortable === "custom";
+          break;
+        }
+      }
+      if (sortType !== "normal" && !isCustom)
+        data = this.sortData(data, sortType, sortIndex);
+      return data;
+    },
+    // handleSort(column, type) {
+    //   console.log(column);
+    //   if (column.sortable !== "custom") {
+    //     if (column._sortType === "normal") {
+    //       this.rebuildDataStr = JSON.stringify(this.makeDataWithFilter());
+    //     } else {
+    //       this.rebuildDataStr = JSON.stringify(
+    //         this.sortData(this.rebuildData, column)
+    //       );
+    //     }
+    //   }
+
+    //   this.getRenderData();
+
+    //   this.$emit("on-sort-change", {
+    //     column,
+    //   });
+    // },
+    handleSort(_index, type) {
+      const index = this.GetOriginalIndex(_index);
+      this.cloneColumns.forEach((col) => (col._sortType = "normal"));
+
+      const key = this.cloneColumns[index].key;
+      if (this.cloneColumns[index].sortable !== "custom") {
+        // custom is for remote sort
+        if (type === "normal") {
+          // this.rebuildData = this.makeDataWithFilter();
+          this.rebuildDataStr = JSON.stringify(this.makeDataWithFilter());
+        } else {
+          // this.rebuildData = this.sortData(this.rebuildData, type, index);
+          const sortData = this.sortData(this.rebuildData, type, index);
+          this.rebuildDataStr = JSON.stringify(sortData);
+        }
+      }
+      this.cloneColumns[index]._sortType = type;
+
+      this.updateColumnSortType(this.cloneColumns[index], type);
 
       this.getRenderData();
-
       this.$emit("on-sort-change", {
-        column,
+        column: JSON.parse(
+          JSON.stringify(this.allColumns[this.cloneColumns[index]._index])
+        ),
+        key: key,
+        order: type,
+      });
+    },
+    updateColumnSortType(column, type) {
+      this.columnRows.forEach((ele) => {
+        ele.forEach((col) => {
+          if (col.__id === column.__id && col.key === column.key) {
+            col._sortType = column._sortType;
+          }
+        });
+      });
+      this.leftFixedColumnRows.forEach((ele) => {
+        ele.forEach((col) => {
+          if (col.__id === column.__id && col.key === column.key) {
+            col._sortType = column._sortType;
+          }
+        });
+      });
+      this.rightFixedColumnRows.forEach((ele) => {
+        ele.forEach((col) => {
+          if (col.__id === column.__id && col.key === column.key) {
+            col._sortType = column._sortType;
+          }
+        });
+      });
+
+      this.leftFixedColumns.forEach((col) => {
+        if (col.__id === column.__id && col.key === column.key) {
+          col._sortType = column._sortType;
+        }
+      });
+      this.rightFixedColumnRows.forEach((col) => {
+        if (col.__id === column.__id && col.key === column.key) {
+          col._sortType = column._sortType;
+        }
       });
     },
     filterData(data, column) {
@@ -1391,7 +1492,7 @@ export default {
     },
     handleFilter(index) {
       const column = this.cloneColumns[index];
-      let filterData = JSON.parse(this.originalData);
+      let filterData = this.makeDataWithSort(JSON.parse(this.originalData));
 
       filterData = this.filterOtherData(filterData, index);
       this.rebuildDataStr = JSON.stringify(this.filterData(filterData, column));
@@ -1423,7 +1524,7 @@ export default {
       this.cloneColumns[index]._filterVisible = false;
       this.cloneColumns[index]._filterChecked = [];
 
-      let filterData = JSON.parse(this.originalData);
+      let filterData = this.makeDataWithSort(JSON.parse(this.originalData));
       filterData = this.filterOtherData(filterData, index);
       this.rebuildDataStr = JSON.stringify(filterData);
       this.getRenderData();
@@ -1506,6 +1607,7 @@ export default {
         data = this.filterData(data, col);
       });
 
+      data = this.makeDataWithSort(data);
       return data;
     },
     doSortAndFilter(sender, column) {

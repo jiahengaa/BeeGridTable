@@ -62,12 +62,16 @@
                   <i
                     class="bee-sys-icon md-arrow-dropup"
                     :class="{ on: getColumnSortType(column) === 'asc' }"
-                    @click="handleSort(column, 'asc')"
+                    @click="
+                      handleSort(getColumn(rowIndex, index)._index, 'asc')
+                    "
                   ></i>
                   <i
                     class="bee-sys-icon md-arrow-dropdown"
                     :class="{ on: getColumnSortType(column) === 'desc' }"
-                    @click="handleSort(column, 'desc')"
+                    @click="
+                      handleSort(getColumn(rowIndex, index)._index, 'desc')
+                    "
                   ></i>
                 </span>
               </template>
@@ -289,8 +293,8 @@ export default {
         },
         {
           filterOperation: "Between",
-          displayName: this.tableRoot.localeFilterLargerEqual,
-          placeholder: "",
+          displayName: this.tableRoot.localeFilterBetween,
+          placeholder: this.tableRoot.localeFilterBetweenPlaceHolder,
           icon: "bettween",
         },
 
@@ -394,7 +398,8 @@ export default {
       if (isGroup) {
         return this.fixed ? this.fixedColumnRows : this.columnRows;
       } else {
-        return this.fixed ? this.fixedColumnRows : this.columnRows;
+        // return this.fixed ? this.fixedColumnRows : this.columnRows;
+        return [this.columns];
       }
     },
     isSelectDisabled() {
@@ -474,7 +479,7 @@ export default {
         },
         {
           filterOperation: "Between",
-          displayName: this.tableRoot.localeFilterLargerEqual,
+          displayName: this.tableRoot.localeFilterBetween,
           placeholder: this.tableRoot.localeFilterBetweenPlaceHolder,
           dateType: "datetimerange",
           icon: "bettween",
@@ -643,23 +648,46 @@ export default {
       const status = !this.isSelectAll;
       this.$parent.selectAll(status);
     },
-    handleSort(column, type) {
+    // handleSort(column, type) {
+    //   if (column._sortType === type) {
+    //     type = "normal";
+    //   }
+    //   column._sortType = type;
+    //   this.$parent.handleSort(column, type);
+    // },
+    handleSort(index, type) {
+      // 在固定列时，寻找正确的 index
+
+      const column = this.columns.find((item) => item._index === index);
+      const _index = column._index;
+
       if (column._sortType === type) {
         type = "normal";
       }
-      column._sortType = type;
-      this.$parent.handleSort(column, type);
+      this.$parent.handleSort(_index, type);
     },
     handleSortByHead(column) {
       if (column.sortable) {
         const type = column._sortType;
         if (type === "normal") {
-          this.handleSort(column, "asc");
+          this.handleSort(column._index, "asc");
         } else if (type === "asc") {
-          this.handleSort(column, "desc");
+          this.handleSort(column._index, "desc");
         } else {
-          this.handleSort(column, "normal");
+          this.handleSort(column._index, "normal");
         }
+      }
+    },
+    getColumn(rowIndex, index) {
+      const isGroup = this.columnRows.length > 1;
+
+      if (isGroup) {
+        const id = this.headRows[rowIndex][index].__id;
+        return this.columns.filter((item) => item.__id === id)[0];
+      } else {
+        const col = this.headRows[rowIndex][index];
+
+        return col;
       }
     },
     getColumnIsFiltered(column) {
