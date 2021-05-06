@@ -44,7 +44,7 @@ const jumUndefinedCol = (row, field) => {
 //field,filterValue,row
 const getNumberFilter = filterOp => {
     switch (filterOp.filterOperation) {
-        case "Equals":
+        case "Equal":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -67,7 +67,7 @@ const getNumberFilter = filterOp => {
                 return row[field] !== Number.parseFloat(filterValue);
             };
 
-        case "Less":
+        case "LessThan":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -79,7 +79,7 @@ const getNumberFilter = filterOp => {
                 return row[field] < Number.parseFloat(filterValue);
             };
 
-        case "Greater":
+        case "GreaterThanOrEqual":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -90,7 +90,7 @@ const getNumberFilter = filterOp => {
                 return row[field] > Number.parseFloat(filterValue);
             };
 
-        case "LessOrEquals":
+        case "LessThanOrEqual":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -112,7 +112,7 @@ const getNumberFilter = filterOp => {
                 return row[field] >= Number.parseFloat(filterValue);
             };
 
-        case "Between":
+        case "DateRange":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -126,7 +126,7 @@ const getNumberFilter = filterOp => {
                 );
             };
 
-        case "AnyOf":
+        case "Any":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -137,7 +137,7 @@ const getNumberFilter = filterOp => {
                 return filterValue.search(row[field]) !== -1;
             };
 
-        case "NoneOf":
+        case "NotAny":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -212,7 +212,7 @@ const getDate = timeStamp => {
 
 const getDateFilter = filterOp => {
     switch (filterOp.filterOperation) {
-        case "Equals":
+        case "Equal":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -245,7 +245,7 @@ const getDateFilter = filterOp => {
                 );
             };
 
-        case "Less":
+        case "LessThan":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -261,7 +261,7 @@ const getDateFilter = filterOp => {
                 );
             };
 
-        case "Greater":
+        case "GreaterThanOrEqual":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -278,7 +278,7 @@ const getDateFilter = filterOp => {
                 );
             };
 
-        case "LessOrEquals":
+        case "LessThanOrEqual":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -310,7 +310,7 @@ const getDateFilter = filterOp => {
                 );
             };
 
-        case "Between":
+        case "DateRange":
             return (column, field, filterValue, row) => {
                 if (jumUndefinedCol(row, field)) {
                     return true;
@@ -319,7 +319,7 @@ const getDateFilter = filterOp => {
                 if (row[field].length === "yyyy-MM-dd".length) {
                     curDate += " 00:00:00";
                 }
-                
+
                 return (
                     new Date(curDate).getTime() >=
                         new Date(filterValue[0]).getTime() &&
@@ -357,8 +357,16 @@ const getStrFilter = filterOp => {
                     return false;
                 }
 
-                if(column.phoneticMatch !== undefined && column.phoneticMatch !== null){
-                    return column.phoneticMatch(column, field, filterValue, row)
+                if (
+                    column.phoneticMatch !== undefined &&
+                    column.phoneticMatch !== null
+                ) {
+                    return column.phoneticMatch(
+                        column,
+                        field,
+                        filterValue,
+                        row
+                    );
                 }
 
                 return (
@@ -426,7 +434,7 @@ const getStrFilter = filterOp => {
                 );
             };
 
-        case "Equals":
+        case "Equal":
             return (column, field, filterValue, row) => {
                 const filterValueIsEmpty =
                     filterValue === undefined ||
@@ -496,7 +504,7 @@ const getStrFilter = filterOp => {
                 return !filterValueIsEmpty;
             };
 
-        case "AnyOf":
+        case "Any":
             return (column, field, filterValue, row) => {
                 const filterValueIsEmpty =
                     filterValue === undefined ||
@@ -516,7 +524,7 @@ const getStrFilter = filterOp => {
                 });
             };
 
-        case "NoneOf":
+        case "NotAny":
             return (column, field, filterValue, row) => {
                 const filterValueIsEmpty =
                     filterValue === undefined ||
@@ -549,8 +557,16 @@ const getStrFilter = filterOp => {
                     return false;
                 }
 
-                if(column.phoneticMatch !== undefined && column.phoneticMatch !== null){
-                    return column.phoneticMatch(column, field, filterValue, row)
+                if (
+                    column.phoneticMatch !== undefined &&
+                    column.phoneticMatch !== null
+                ) {
+                    return column.phoneticMatch(
+                        column,
+                        field,
+                        filterValue,
+                        row
+                    );
                 }
                 return row[field].toString().search(filterValue.trim()) !== -1;
             };
@@ -678,7 +694,7 @@ const convertToRows = (columns, fixedType = false) => {
 
     const allColumns = getAllColumns(originColumns, true);
 
-    allColumns.forEach((column) => {
+    allColumns.forEach(column => {
         if (!column.children) {
             column.rowSpan = maxLevel - column.level + 1;
         } else {

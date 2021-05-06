@@ -71,11 +71,11 @@ export declare class Table extends Vue {
     /**
      * 表格分页每页大小
      */
-    "page-size"?: number | string;
+    "page-size": number | string;
     /**
      * 表格分页下拉选择
      */
-    "page-count"?: number | string;
+    "page-count": number | string;
     /**
      * 数据为空时显示的提示内容
      * @default 暂无数据
@@ -101,6 +101,10 @@ export declare class Table extends Vue {
      * @default false
      */
     "row-key": boolean;
+    /**
+     * 是否服务端分页筛选排序
+     */
+    "server-side": boolean;
     /**
      * 开启 highlight-row 后有效，当表格的当前行发生变化的时候会触发
      * currentRow：当前高亮行的数据

@@ -20,6 +20,7 @@
       <template v-if="column.tooltip">
         <Tooltip
           transfer
+          :placement="column.tooltipPlacement"
           :content="row[column.key]"
           :theme="tableRoot.tooltipTheme"
           :disabled="!showTooltip && !tooltipShow"
@@ -71,119 +72,123 @@ import Checkbox from "../checkbox/checkbox.vue";
 import Tooltip from "../tooltip/tooltip.vue";
 
 import {
-  DEFAULT_FORMATS,
-  TYPE_VALUE_RESOLVER_MAP,
-  getDayCountOfMonth,
+    DEFAULT_FORMATS,
+    TYPE_VALUE_RESOLVER_MAP,
+    getDayCountOfMonth
 } from "../date-picker/util";
 
 export default {
-  name: "TableCell",
-  components: { Icon, Checkbox, TableExpand, TableSlot, Tooltip },
-  inject: ["tableRoot"],
-  props: {
-    prefixCls: String,
-    row: Object,
-    column: Object,
-    naturalIndex: Number,
-    index: Number,
-    checked: Boolean,
-    disabled: Boolean,
-    expanded: Boolean,
-    fixed: {
-      type: [Boolean, String],
-      default: false,
-    },
-  },
-  data() {
-    return {
-      renderType: "",
-      uid: -1,
-      context: this.$parent.$parent.$parent.currentContext,
-      showTooltip: false,
-      tooltipShow: false,
-    };
-  },
-  computed: {
-    classes() {
-      return [
-        `${this.prefixCls}-cell`,
-        {
-          [`${this.prefixCls}-hidden`]:
-            !this.fixed &&
-            this.column.fixed &&
-            (this.column.fixed === "left" || this.column.fixed === "right"),
-          [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false,
-          [`${this.prefixCls}-cell-with-expand`]: this.renderType === "expand",
-          [`${this.prefixCls}-cell-with-selection`]:
-            this.renderType === "selection",
-        },
-      ];
-    },
-    expandCls() {
-      return [
-        `${this.prefixCls}-cell-expand`,
-        {
-          [`${this.prefixCls}-cell-expand-expanded`]: this.expanded,
-        },
-      ];
-    },
-    cellText() {
-      return (row, column) => {
-        if (column.type === "date") {
-          const format = column.format || DEFAULT_FORMATS[column.dateType];
-          const formatter = (
-            TYPE_VALUE_RESOLVER_MAP["datetime"] ||
-            TYPE_VALUE_RESOLVER_MAP["default"]
-          ).formatter;
-
-          return formatter(row[column.key], format);
+    name: "TableCell",
+    components: { Icon, Checkbox, TableExpand, TableSlot, Tooltip },
+    inject: ["tableRoot"],
+    props: {
+        prefixCls: String,
+        row: Object,
+        column: Object,
+        naturalIndex: Number,
+        index: Number,
+        checked: Boolean,
+        disabled: Boolean,
+        expanded: Boolean,
+        fixed: {
+            type: [Boolean, String],
+            default: false
         }
-        return row[column.key];
-      };
     },
-  },
-  methods: {
-    toggleSelect() {
-      this.$parent.$parent.$parent.toggleSelect(this.index);
+    data() {
+        return {
+            renderType: "",
+            uid: -1,
+            context: this.$parent.$parent.$parent.currentContext,
+            showTooltip: false,
+            tooltipShow: false
+        };
     },
-    toggleExpand() {
-      this.$parent.$parent.$parent.toggleExpand(this.index);
-    },
-    handleClick() {},
-    handleTooltipIn() {
-      const $content = this.$refs.content;
-      this.showTooltip = $content.scrollWidth > $content.offsetWidth;
-    },
-    handleTooltipOut() {
-      this.showTooltip = false;
-    },
-    handleTooltipShow() {
-      this.tooltipShow = true;
-    },
-    handleTooltipHide() {
-      this.tooltipShow = false;
-    },
-  },
-  created() {
-    if (this.column.type === "index") {
-      this.renderType = "index";
-    } else if (this.column.type === "selection") {
-      this.renderType = "selection";
-    } else if (this.column.type === "html") {
-      this.renderType = "html";
-    } else if (this.column.type === "expand") {
-      this.renderType = "expand";
-    } else if (this.column.render) {
-      this.renderType = "render";
-    } else if (this.column.slot) {
-      this.renderType = "slot";
-    } else {
-      this.renderType = "normal";
-    }
+    computed: {
+        classes() {
+            return [
+                `${this.prefixCls}-cell`,
+                {
+                    [`${this.prefixCls}-hidden`]:
+                        !this.fixed &&
+                        this.column.fixed &&
+                        (this.column.fixed === "left" ||
+                            this.column.fixed === "right"),
+                    [`${this.prefixCls}-cell-ellipsis`]:
+                        this.column.ellipsis || false,
+                    [`${this.prefixCls}-cell-with-expand`]:
+                        this.renderType === "expand",
+                    [`${this.prefixCls}-cell-with-selection`]:
+                        this.renderType === "selection"
+                }
+            ];
+        },
+        expandCls() {
+            return [
+                `${this.prefixCls}-cell-expand`,
+                {
+                    [`${this.prefixCls}-cell-expand-expanded`]: this.expanded
+                }
+            ];
+        },
+        cellText() {
+            return (row, column) => {
+                if (column.type === "date") {
+                    const format =
+                        column.format || DEFAULT_FORMATS[column.dateType];
+                    const formatter = (
+                        TYPE_VALUE_RESOLVER_MAP["datetime"] ||
+                        TYPE_VALUE_RESOLVER_MAP["default"]
+                    ).formatter;
 
-    if (this.tableRoot.defaultCell === true) {
-      this.renderType = "slot";
+                    return formatter(row[column.key], format);
+                }
+                return row[column.key];
+            };
+        }
+    },
+    methods: {
+        toggleSelect() {
+            this.$parent.$parent.$parent.toggleSelect(this.index);
+        },
+        toggleExpand() {
+            this.$parent.$parent.$parent.toggleExpand(this.index);
+        },
+        handleClick() {},
+        handleTooltipIn() {
+            const $content = this.$refs.content;
+            this.showTooltip = $content.scrollWidth > $content.offsetWidth;
+        },
+        handleTooltipOut() {
+            this.showTooltip = false;
+        },
+        handleTooltipShow() {
+            this.tooltipShow = true;
+        },
+        handleTooltipHide() {
+            this.tooltipShow = false;
+        }
+    },
+    created() {
+        if (this.column.type === "index") {
+            this.renderType = "index";
+        } else if (this.column.type === "selection") {
+            this.renderType = "selection";
+        } else if (this.column.type === "html") {
+            this.renderType = "html";
+        } else if (this.column.type === "expand") {
+            this.renderType = "expand";
+        } else if (this.column.render) {
+            this.renderType = "render";
+        } else if (this.column.slot) {
+            this.renderType = "slot";
+        } else {
+            this.renderType = "normal";
+        }
+
+        if (this.tableRoot.defaultCell === true) {
+            this.renderType = "slot";
+        }
     }
-  },
 };
 </script>

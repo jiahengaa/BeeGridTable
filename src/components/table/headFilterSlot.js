@@ -23,6 +23,7 @@ export default {
                     "bee-filter-" + ctx.props.column.key
                 ]({
                     column: ctx.props.column,
+                    columns: ctx.injections.tableRoot.filterRows,
                     index: ctx.props.index,
                     doSortAndFilter: () => {
                         ctx.injections.tableRoot.doSortAndFilter(
@@ -43,6 +44,7 @@ export default {
                     ctx.props.column.headFilterSlot
                 ]({
                     column: ctx.props.column,
+                    columns: ctx.injections.tableRoot.filterRows,
                     index: ctx.props.index,
                     doSortAndFilter: () => {
                         ctx.injections.tableRoot.doSortAndFilter(

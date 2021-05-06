@@ -157,289 +157,293 @@ import Locale from "../../mixins/locale";
 const prefixCls = "bee-page";
 
 export default {
-  name: "Page",
-  mixins: [Locale],
-  components: { Options },
-  props: {
-    current: {
-      type: Number,
-      default: 1,
-    },
-    total: {
-      type: Number,
-      default: 0,
-    },
-    filterTotalData: {
-      type: Number,
-      default: 0,
-    },
-    filterResultL: {
-      type: String,
-      default: "",
-    },
-    filterResultR: {
-      type: String,
-      default: "",
-    },
-    pageSize: {
-      type: Number,
-      default: 10,
-    },
-    pageCount: {
-      type: Number,
-      default: 4,
-    },
-    placement: {
-      validator(value) {
-        return oneOf(value, ["top", "bottom"]);
-      },
-      default: "bottom",
-    },
-    transfer: {
-      type: Boolean,
-      default() {
-        return !this.$BEETABLE || this.$BEETABLE.transfer === ""
-          ? false
-          : this.$BEETABLE.transfer;
-      },
-    },
-    size: {
-      validator(value) {
-        return oneOf(value, ["small"]);
-      },
-    },
-    simple: {
-      type: Boolean,
-      default: false,
-    },
-    showTotal: {
-      type: Boolean,
-      default: false,
-    },
-    showElevator: {
-      type: Boolean,
-      default: false,
-    },
-    showSizer: {
-      type: Boolean,
-      default: false,
-    },
-    className: {
-      type: String,
-    },
-    styles: {
-      type: Object,
-    },
-    prevText: {
-      type: String,
-      default: "",
-    },
-    nextText: {
-      type: String,
-      default: "",
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      prefixCls: prefixCls,
-      currentPage: this.current,
-      currentPageSize: this.pageSize,
-      currentPageSizeOpts: [10, 20, 30, 40],
-    };
-  },
-  watch: {
-    total(val) {
-      let maxPage = Math.ceil(val / this.currentPageSize);
-      if (maxPage < this.currentPage) {
-        this.currentPage = maxPage === 0 ? 1 : maxPage;
-      }
-    },
-    current(val) {
-      this.currentPage = val;
-    },
-    pageSize: {
-      handler(val) {
-        this.currentPageSize = val;
-        if (val > 0 && this.pageCount) {
-          this.currentPageSizeOpts = [];
-          for (var i = 1; i <= this.pageCount; i++) {
-            this.currentPageSizeOpts.push(val * i);
-          }
+    name: "Page",
+    mixins: [Locale],
+    components: { Options },
+    props: {
+        current: {
+            type: Number,
+            default: 1
+        },
+        total: {
+            type: Number,
+            default: 0
+        },
+        filterTotalData: {
+            type: Number,
+            default: 0
+        },
+        filterResultL: {
+            type: String,
+            default: ""
+        },
+        filterResultR: {
+            type: String,
+            default: ""
+        },
+        pageSize: {
+            type: Number,
+            default: 10
+        },
+        pageCount: {
+            type: Number,
+            default: 4
+        },
+        placement: {
+            validator(value) {
+                return oneOf(value, ["top", "bottom"]);
+            },
+            default: "bottom"
+        },
+        transfer: {
+            type: Boolean,
+            default() {
+                return !this.$BEETABLE || this.$BEETABLE.transfer === ""
+                    ? false
+                    : this.$BEETABLE.transfer;
+            }
+        },
+        size: {
+            validator(value) {
+                return oneOf(value, ["small"]);
+            }
+        },
+        simple: {
+            type: Boolean,
+            default: false
+        },
+        showTotal: {
+            type: Boolean,
+            default: false
+        },
+        showElevator: {
+            type: Boolean,
+            default: false
+        },
+        showSizer: {
+            type: Boolean,
+            default: false
+        },
+        className: {
+            type: String
+        },
+        styles: {
+            type: Object
+        },
+        prevText: {
+            type: String,
+            default: ""
+        },
+        nextText: {
+            type: String,
+            default: ""
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
-      },
-      immediate: true,
     },
-    pageCount: {
-      handler(val) {
-        if (this.pageSize > 0 && val > 0) {
-          this.currentPageSizeOpts = [];
-          for (var i = 1; i <= val; i++) {
-            this.currentPageSizeOpts.push(i * this.pageSize);
-          }
+    data() {
+        return {
+            prefixCls: prefixCls,
+            currentPage: this.current,
+            currentPageSize: this.pageSize,
+            currentPageSizeOpts: [10, 20, 30, 40]
+        };
+    },
+    watch: {
+        total(val) {
+            let maxPage = Math.ceil(val / this.currentPageSize);
+            if (maxPage < this.currentPage) {
+                this.currentPage = maxPage === 0 ? 1 : maxPage;
+            }
+        },
+        current(val) {
+            this.currentPage = val;
+        },
+        pageSize: {
+            handler(val) {
+                this.currentPageSize = val;
+                if (val > 0 && this.pageCount) {
+                    this.currentPageSizeOpts = [];
+                    for (var i = 1; i <= this.pageCount; i++) {
+                        this.currentPageSizeOpts.push(val * i);
+                    }
+                }
+            },
+            immediate: true
+        },
+        pageCount: {
+            handler(val) {
+                if (this.pageSize > 0 && val > 0) {
+                    this.currentPageSizeOpts = [];
+                    for (var i = 1; i <= val; i++) {
+                        this.currentPageSizeOpts.push(i * this.pageSize);
+                    }
+                }
+            },
+            immediate: true
         }
-      },
-      immediate: true,
     },
-  },
-  computed: {
-    isSmall() {
-      return !!this.size;
-    },
-    allPages() {
-      const allPage = Math.ceil(this.filterTotalData / this.currentPageSize);
-      return allPage === 0 ? 1 : allPage;
-    },
-    simpleWrapClasses() {
-      return [
-        `${prefixCls}`,
-        `${prefixCls}-simple`,
-        {
-          [`${this.className}`]: !!this.className,
+    computed: {
+        isSmall() {
+            return !!this.size;
         },
-      ];
-    },
-    simplePagerClasses() {
-      return `${prefixCls}-simple-pager`;
-    },
-    wrapClasses() {
-      return [
-        `${prefixCls}`,
-        {
-          [`${this.className}`]: !!this.className,
-          [`${prefixCls}-with-disabled`]: this.disabled,
-          mini: !!this.size,
+        allPages() {
+            const allPage = Math.ceil(
+                this.filterTotalData / this.currentPageSize
+            );
+            return allPage === 0 ? 1 : allPage;
         },
-      ];
-    },
-    prevClasses() {
-      return [
-        `${prefixCls}-prev`,
-        {
-          [`${prefixCls}-disabled`]: this.currentPage === 1 || this.disabled,
-          [`${prefixCls}-custom-text`]: this.prevText !== "",
+        simpleWrapClasses() {
+            return [
+                `${prefixCls}`,
+                `${prefixCls}-simple`,
+                {
+                    [`${this.className}`]: !!this.className
+                }
+            ];
         },
-      ];
-    },
-    nextClasses() {
-      return [
-        `${prefixCls}-next`,
-        {
-          [`${prefixCls}-disabled`]:
-            this.currentPage === this.allPages || this.disabled,
-          [`${prefixCls}-custom-text`]: this.nextText !== "",
+        simplePagerClasses() {
+            return `${prefixCls}-simple-pager`;
         },
-      ];
-    },
-    firstPageClasses() {
-      return [
-        `${prefixCls}-item`,
-        {
-          [`${prefixCls}-item-active`]: this.currentPage === 1,
+        wrapClasses() {
+            return [
+                `${prefixCls}`,
+                {
+                    [`${this.className}`]: !!this.className,
+                    [`${prefixCls}-with-disabled`]: this.disabled,
+                    mini: !!this.size
+                }
+            ];
         },
-      ];
-    },
-    lastPageClasses() {
-      return [
-        `${prefixCls}-item`,
-        {
-          [`${prefixCls}-item-active`]: this.currentPage === this.allPages,
+        prevClasses() {
+            return [
+                `${prefixCls}-prev`,
+                {
+                    [`${prefixCls}-disabled`]:
+                        this.currentPage === 1 || this.disabled,
+                    [`${prefixCls}-custom-text`]: this.prevText !== ""
+                }
+            ];
         },
-      ];
-    },
-  },
-  methods: {
-    changePage(page) {
-      if (this.disabled) return;
-      if (this.currentPage != page) {
-        this.currentPage = page;
-        this.$emit("update:current", page);
-        this.$emit("on-change", page);
-      }
-    },
-    prev() {
-      if (this.disabled) return;
-      const current = this.currentPage;
-      if (current <= 1) {
-        return false;
-      }
-      this.changePage(current - 1);
-    },
-    next() {
-      if (this.disabled) return;
-      const current = this.currentPage;
-      if (current >= this.allPages) {
-        return false;
-      }
-      this.changePage(current + 1);
-    },
-    fastPrev() {
-      if (this.disabled) return;
-      const page = this.currentPage - 5;
-      if (page > 0) {
-        this.changePage(page);
-      } else {
-        this.changePage(1);
-      }
-    },
-    fastNext() {
-      if (this.disabled) return;
-      const page = this.currentPage + 5;
-      if (page > this.allPages) {
-        this.changePage(this.allPages);
-      } else {
-        this.changePage(page);
-      }
-    },
-    onSize(pageSize) {
-      if (this.disabled) return;
-      this.currentPageSize = pageSize;
-      this.$emit("on-page-size-change", pageSize);
-      this.changePage(1);
-    },
-    onPage(page) {
-      if (this.disabled) return;
-      this.changePage(page);
-    },
-    keyDown(e) {
-      const key = e.keyCode;
-      const condition =
-        (key >= 48 && key <= 57) ||
-        (key >= 96 && key <= 105) ||
-        key === 8 ||
-        key === 37 ||
-        key === 39;
-
-      if (!condition) {
-        e.preventDefault();
-      }
-    },
-    keyUp(e) {
-      const key = e.keyCode;
-      const val = parseInt(e.target.value);
-
-      if (key === 38) {
-        this.prev();
-      } else if (key === 40) {
-        this.next();
-      } else if (key === 13) {
-        let page = 1;
-
-        if (val > this.allPages) {
-          page = this.allPages;
-        } else if (val <= 0 || !val) {
-          page = 1;
-        } else {
-          page = val;
+        nextClasses() {
+            return [
+                `${prefixCls}-next`,
+                {
+                    [`${prefixCls}-disabled`]:
+                        this.currentPage === this.allPages || this.disabled,
+                    [`${prefixCls}-custom-text`]: this.nextText !== ""
+                }
+            ];
+        },
+        firstPageClasses() {
+            return [
+                `${prefixCls}-item`,
+                {
+                    [`${prefixCls}-item-active`]: this.currentPage === 1
+                }
+            ];
+        },
+        lastPageClasses() {
+            return [
+                `${prefixCls}-item`,
+                {
+                    [`${prefixCls}-item-active`]:
+                        this.currentPage === this.allPages
+                }
+            ];
         }
-
-        e.target.value = page;
-        this.changePage(page);
-      }
     },
-  },
+    methods: {
+        changePage(page) {
+            if (this.disabled) return;
+            if (this.currentPage != page) {
+                this.currentPage = page;
+                this.$emit("update:current", page);
+                this.$emit("on-change", page);
+            }
+        },
+        prev() {
+            if (this.disabled) return;
+            const current = this.currentPage;
+            if (current <= 1) {
+                return false;
+            }
+            this.changePage(current - 1);
+        },
+        next() {
+            if (this.disabled) return;
+            const current = this.currentPage;
+            if (current >= this.allPages) {
+                return false;
+            }
+            this.changePage(current + 1);
+        },
+        fastPrev() {
+            if (this.disabled) return;
+            const page = this.currentPage - 5;
+            if (page > 0) {
+                this.changePage(page);
+            } else {
+                this.changePage(1);
+            }
+        },
+        fastNext() {
+            if (this.disabled) return;
+            const page = this.currentPage + 5;
+            if (page > this.allPages) {
+                this.changePage(this.allPages);
+            } else {
+                this.changePage(page);
+            }
+        },
+        onSize(pageSize) {
+            if (this.disabled) return;
+            this.currentPageSize = pageSize;
+            this.$emit("on-page-size-change", pageSize);
+            this.changePage(1);
+        },
+        onPage(page) {
+            if (this.disabled) return;
+            this.changePage(page);
+        },
+        keyDown(e) {
+            const key = e.keyCode;
+            const condition =
+                (key >= 48 && key <= 57) ||
+                (key >= 96 && key <= 105) ||
+                key === 8 ||
+                key === 37 ||
+                key === 39;
+
+            if (!condition) {
+                e.preventDefault();
+            }
+        },
+        keyUp(e) {
+            const key = e.keyCode;
+            const val = parseInt(e.target.value);
+
+            if (key === 38) {
+                this.prev();
+            } else if (key === 40) {
+                this.next();
+            } else if (key === 13) {
+                let page = 1;
+
+                if (val > this.allPages) {
+                    page = this.allPages;
+                } else if (val <= 0 || !val) {
+                    page = 1;
+                } else {
+                    page = val;
+                }
+
+                e.target.value = page;
+                this.changePage(page);
+            }
+        }
+    }
 };
 </script>
