@@ -199,13 +199,14 @@
         <slot name="footer"></slot>
       </div>
 
-      <div style="margin-top: 15px" v-if="showPager">
+      <div v-if="showPager">
         <Page
           show-total
           :filterResultL="localeFilterResultL"
           :filterResultR="localeFilterResultR"
           ref="page"
-          style="margin-left: 20px; margin-bottom: 10px"
+          :styles="pageStyles"
+          :className="pageClassName"
           :total="total === null ? data.length:total"
           :current="page"
           :filterTotalData="filterTotal === null ?rebuildData.length:filterTotal"
@@ -334,6 +335,28 @@ export default {
             type: Function,
             default() {
                 return "";
+            }
+        },
+        pageClassName: {
+            type: String,
+            default() {
+                return "";
+            }
+        },
+        pageStyles: {
+            type: Object,
+            default() {
+                return {
+                    marginLeft: "20px",
+                    marginBottom: "15px",
+                    marginTop: "15px"
+                };
+            }
+        },
+        pageRowHeight: {
+            type: [Number, String],
+            default() {
+                return 60;
             }
         },
         context: {
@@ -659,7 +682,6 @@ export default {
         styles() {
             let style = {};
             let summaryHeight = 0;
-            let pageRowHeight = 60;
             if (this.showSummary) {
                 if (this.size === "small") summaryHeight = 40;
                 else if (this.size === "large") summaryHeight = 60;
@@ -668,16 +690,18 @@ export default {
             if (this.height) {
                 let height = parseInt(this.height) + summaryHeight;
                 if (this.showPager) {
-                    style.height = `${height + pageRowHeight}px`;
+                    style.height = `${height + this.pageRowHeight}px`;
                 } else {
                     style.height = `${height}px`;
                 }
             }
             if (this.maxHeight) {
                 const maxHeight =
-                    parseInt(this.maxHeight) + summaryHeight + pageRowHeight;
+                    parseInt(this.maxHeight) +
+                    summaryHeight +
+                    this.pageRowHeight;
                 if (this.showPager) {
-                    style.maxHeight = `${maxHeight + pageRowHeight}px`;
+                    style.maxHeight = `${maxHeight + this.pageRowHeight}px`;
                 } else {
                     style.maxHeight = `${maxHeight}px`;
                 }
@@ -1116,10 +1140,28 @@ export default {
             const oldData =
                 oldIndex < 0
                     ? null
-                    : JSON.parse(JSON.stringify(this.rebuildData[oldIndex]));
+                    : this.rebuildData.find(p => p._index === oldIndex) ===
+                      undefined
+                        ? null
+                        : JSON.parse(
+                              JSON.stringify(
+                                  this.rebuildData.find(
+                                      p => p._index === oldIndex
+                                  )
+                              )
+                          );
             const newData =
                 type === "highlight"
-                    ? JSON.parse(JSON.stringify(this.rebuildData[_index]))
+                    ? this.rebuildData.find(p => p._index === _index) ===
+                      undefined
+                        ? null
+                        : JSON.parse(
+                              JSON.stringify(
+                                  this.rebuildData.find(
+                                      p => p._index === _index
+                                  )
+                              )
+                          )
                     : null;
             this.$emit("on-current-change", newData, oldData);
         },
@@ -1432,7 +1474,7 @@ export default {
             }
 
             for (let i = 0; i < this.rightFixedFilterRows.length; i++) {
-                if (this.leftFixedFilterRows[i].fixed === "right") {
+                if (this.rightFixedFilterRows[i].fixed === "right") {
                     if (
                         this.rightFixedFilterRows[i]._sortType === "desc" ||
                         this.rightFixedFilterRows[i]._sortType === "asc"

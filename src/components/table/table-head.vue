@@ -136,12 +136,12 @@
                   </div>
                 </Poptip>
 
-                <Input
+                <InputNumber
                   v-if="
                     fcolumn._type === 'number' && isFilterPopperShow(fcolumn)
                   "
                   clearable
-                  number
+
                   v-model="fcolumn._filterValue"
                   placeholder
                   @input.native="handleInput($event, fcolumn)"

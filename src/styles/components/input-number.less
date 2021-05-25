@@ -10,32 +10,31 @@
     @radius-wrap: 0 @btn-border-radius @btn-border-radius 0;
 
     .input;
+    border:none !important;
     margin: 0;
     padding: 0;
-    width: 80px;
+    // width: 80px;
     height: @input-height-base;
     line-height: @input-height-base;
     vertical-align: middle;
-    border: 1px solid @border-color-base;
-    border-radius: @btn-border-radius;
+
     overflow: hidden;
     cursor: default;
 
     &-handler-wrap {
         width: 22px;
         height: 100%;
-        border-left: 1px solid @border-color-base;
-        border-radius: @radius-wrap;
         background: #fff;
         position: absolute;
         top: 0;
         right: 0;
-        opacity: 0;
-        transition: opacity @transition-time @ease-in-out;
+        opacity: 1;
+
     }
 
     &:hover &-handler-wrap {
         opacity: 1;
+        border-color: transparent !important;
     }
 
     &-handler-up {
@@ -46,7 +45,7 @@
     }
 
     &-handler-down {
-        border-top: 1px solid @border-color-base;
+        // border-top: 1px solid @border-color-base;
         top: -1px;
         cursor: pointer;
     }
@@ -85,7 +84,7 @@
     }
 
     &-focused {
-        .active();
+        // .active();
     }
 
     &-disabled {
